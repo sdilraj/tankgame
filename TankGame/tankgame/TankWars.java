@@ -11,10 +11,6 @@ import javax.imageio.ImageIO;
 import javax.swing.JApplet;
 import javax.swing.JPanel;
 
-/**
- *
- * @author doraemon
- */
 public class TankWars extends JPanel implements Runnable, KeyListener {
     private int p1_x = 0, p1_y = 0; // Player 1 coordinates
     private int p2_x = 1015, p2_y = 655; // Player 2 coordinates
@@ -58,7 +54,7 @@ public class TankWars extends JPanel implements Runnable, KeyListener {
         setFocusTraversalKeysEnabled(false);
         
         try {
-            background = ImageIO.read(new File("Resources/Background.gif"));
+            background = ImageIO.read(new File("Resources/Background.png"));
             tank1 = ImageIO.read(new File("Resources/Tank1.png"));
             tank2 = ImageIO.read(new File("Resources/tank2.png"));
         } catch (IOException e) {
