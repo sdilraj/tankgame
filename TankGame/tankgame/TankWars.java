@@ -2,21 +2,28 @@ package tankgame;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import javax.imageio.ImageIO;
-import javax.swing.JApplet;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 public class TankWars extends JPanel implements Runnable, KeyListener {
-    private int p1_x = 0, p1_y = 0; // Player 1 coordinates
-    private int p2_x = 1015, p2_y = 655; // Player 2 coordinates
-    
+    private Tank tankP1;
+    private Tank tankP2;
+    Wall [] dWalls = new Wall[50]; // Destroyable walls
+    Wall [] cWalls = new Wall[50]; // Concrete walls
+    private int p1_x = 0, p1_y = 0; // Player 1 starting coordinates
+    private int p2_x = 1015, p2_y = 655; // Player 2 starting coordinates
+    private boolean mapComplete = false;
     private BufferedImage background;
     private BufferedImage tank1, tank2;
+    //Image icon;
     
     TankWars() {
         init();
@@ -30,22 +37,26 @@ public class TankWars extends JPanel implements Runnable, KeyListener {
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        g.setColor(Color.black);
-        g.drawImage(background, 0, 0, this);
-        g.drawImage(background, 0, 240, this);
-        g.drawImage(background, 0, 480, this);
-        g.drawImage(background, 315, 0, this);
-        g.drawImage(background, 315, 240, this);
-        g.drawImage(background, 315, 480, this);
-        g.drawImage(background, 630, 0, this);
-        g.drawImage(background, 630, 240, this);
-        g.drawImage(background, 630, 480, this);
-        g.drawImage(background, 945, 0, this);
-        g.drawImage(background, 945, 240, this);
-        g.drawImage(background, 945, 480, this);
+        g.setColor(Color.GREEN);
+        //if (mapComplete == false) {
+            g.drawImage(background, 0, 0, this);
+            g.drawImage(background, 0, 240, this);
+            g.drawImage(background, 0, 480, this);
+            g.drawImage(background, 315, 0, this);
+            g.drawImage(background, 315, 240, this);
+            g.drawImage(background, 315, 480, this);
+            g.drawImage(background, 630, 0, this);
+            g.drawImage(background, 630, 240, this);
+            g.drawImage(background, 630, 480, this);
+            g.drawImage(background, 945, 0, this);
+            g.drawImage(background, 945, 240, this);
+            g.drawImage(background, 945, 480, this);
+            mapComplete = true;
+        //}
         
-        g.drawImage(tank1, p1_x, p1_y, this);
-        g.drawImage(tank2, p2_x, p2_y, this);
+        g.drawImage(tankP1.Img, tankP1.x, tankP1.y, this);
+        g.drawImage(tankP2.Img, tankP2.x, tankP2.y, this);
+        
     }
     
     public void init () {
@@ -56,7 +67,10 @@ public class TankWars extends JPanel implements Runnable, KeyListener {
         try {
             background = ImageIO.read(new File("Resources/Background.png"));
             tank1 = ImageIO.read(new File("Resources/Tank1.png"));
+            tankP1 = new Tank(p1_x, p1_y, tank1);
             tank2 = ImageIO.read(new File("Resources/tank2.png"));
+            tankP2 = new Tank(p2_x, p2_y, tank2);
+            
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -74,28 +88,28 @@ public class TankWars extends JPanel implements Runnable, KeyListener {
 
         switch(code){
             case KeyEvent.VK_DOWN:
-            p1_y += 5;
+            tankP1.moveDown();
             break;
         case  KeyEvent.VK_UP:
-            p1_y -= 5;
+            tankP1.moveUp();
             break;
         case  KeyEvent.VK_LEFT:
-            p1_x -= 5;
+            tankP1.moveLeft();
             break;
         case KeyEvent.VK_RIGHT:
-            p1_x += 5;
+            tankP1.moveRight();
             break;
         case KeyEvent.VK_W:
-            p2_y -= 5;
+            tankP2.moveUp();
             break;
         case KeyEvent.VK_A:
-            p2_x -= 5;
+            tankP2.moveLeft();
             break;
         case KeyEvent.VK_S:
-            p2_y += 5;
+            tankP2.moveDown();
             break;
         case KeyEvent.VK_D:
-            p2_x += 5;
+            tankP2.moveRight();
             break;
         }
         repaint();
