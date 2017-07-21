@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 public class Missile extends GameObject{
     private long timer = 0;
@@ -50,7 +51,10 @@ public class Missile extends GameObject{
 
     @Override
     public void update() {
-        x += velX;
+        if (!collide())
+            x += velX;
+        else
+            x += 0;
     }
 
     @Override
@@ -61,12 +65,19 @@ public class Missile extends GameObject{
 
     @Override
     public Rectangle checkBounds() {
-        return null;
+        return new Rectangle(x, y, Img.getWidth(null), Img.getHeight(null));
     }
 
     @Override
     public boolean collide() {
-        return true;
+        ArrayList <Wall> walls = TankWars.getCWalls();
+        for (int i = 0; i < walls.size(); i++) {
+            if (checkBounds().intersects(walls.get(i).checkBounds())) {
+                return true;
+            }
+        }
+        
+        return false;
     }
     
     public void keyPressed(KeyEvent e) {

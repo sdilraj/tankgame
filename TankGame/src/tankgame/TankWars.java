@@ -120,6 +120,9 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
     public static ArrayList getCWalls() {
         return cWalls;
     }
+    public static Missile getMissile() {
+        return missile;
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {

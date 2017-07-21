@@ -3,6 +3,7 @@ package tankgame;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.util.ArrayList;
 
 public class Wall extends GameObject {
     private boolean destroyable;
@@ -33,10 +34,6 @@ public class Wall extends GameObject {
 
     @Override
     public boolean collide() {
-        Tank tank = TankWars.getTank();
-        if (checkBounds().intersects(tank.checkBounds())) {
-            return true;
-        }
         
         return false;
     }
