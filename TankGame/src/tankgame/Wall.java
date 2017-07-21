@@ -5,10 +5,11 @@ import java.awt.Image;
 import java.awt.Rectangle;
 
 public class Wall extends GameObject {
+    private boolean destroyable;
     
-    
-    public Wall(ObjectID id, int x, int y, Image img) {
+    public Wall(ObjectID id, int x, int y, Image img, boolean destoryable) {
         super(id, x, y, img);
+        this.destroyable = destroyable;
     }
     
     public void respawn() {
@@ -32,6 +33,11 @@ public class Wall extends GameObject {
 
     @Override
     public boolean collide() {
+        Tank tank = TankWars.getTank();
+        if (checkBounds().intersects(tank.checkBounds())) {
+            return true;
+        }
+        
         return false;
     }
     

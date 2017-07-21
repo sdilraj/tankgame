@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 public class Tank extends GameObject{
     private boolean launch = false;
@@ -17,13 +18,19 @@ public class Tank extends GameObject{
 
     @Override
     public void update() {
-        //if (!collide()) {
+        if(!collide()) {
             x += velX;
             y += velY;
-        /*} else {
-            x += 0;
-            y += 0;
-        }*/
+        } else {
+            if (velX > 0)
+                x -= 3;
+            if (velX < 0)
+                x += 3;
+            if (velY > 0)
+                y -= 3;
+            if (velY < 0)
+                y += 3;
+        }
     }
 
     @Override
@@ -43,8 +50,16 @@ public class Tank extends GameObject{
     @Override
     public boolean collide() {
         //Tank_2 tank = TankWars.getTank_2();
-        Tank_2 tank = TankWars.getTank_2();
-        return checkBounds().intersects(tank.checkBounds());
+        Tank tank = TankWars.getTank();
+        ArrayList <Wall> walls = TankWars.getCWalls();
+        for (int i = 0; i < walls.size(); i++) {
+            if (walls.get(i).checkBounds().intersects(tank.checkBounds())) {
+                System.out.println("Tank collides wall");
+                return true;
+            }
+        }
+        
+        return false;
     }
     
     public void keyPressed(KeyEvent e) {
