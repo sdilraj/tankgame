@@ -5,14 +5,31 @@ import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 
-public class Tank extends GameObject{
-    private boolean launch = false;
+public class Tank_2 extends GameObject{
     private final int SPEED = 2;
+    //private final int ZERO = 0;
     private int health = 100;
     private final int DAMGE = 25;
+    private ObjectID id;
      
-    public Tank(ObjectID id, int x, int y, Image Img) {
+    public Tank_2(ObjectID id, int x, int y, Image Img) {
         super(id, x, y, Img);
+    }
+
+    public int getHealth() {
+        return health;
+    }
+    
+    public boolean isDead() {
+        return 0 == health;
+    }
+    
+    public void dead() {
+        this.Img = null;
+    }
+    
+    public void respawn() {
+        health = 100;
     }
 
     @Override
@@ -20,19 +37,16 @@ public class Tank extends GameObject{
         //if (!collide()) {
             x += velX;
             y += velY;
-        /*} else {
-            x += 0;
-            y += 0;
+        //} else {
+            /*x += 0;
+            y +=0;
         }*/
     }
 
     @Override
     public void draw(Graphics2D g2D) {
         g2D.drawImage(Img, x, y, null);
-        //if(launch == true) {
-            //for (int i = 0; i < 100; i++) 
-                //g2D.drawImage(bullet.get(0).Img, x + (Img.getWidth(null)), y + (Img.getHeight(null)/3), null);
-        //}
+        
     }
     
     @Override
@@ -42,8 +56,7 @@ public class Tank extends GameObject{
     
     @Override
     public boolean collide() {
-        //Tank_2 tank = TankWars.getTank_2();
-        Tank_2 tank = TankWars.getTank_2();
+        Tank tank = TankWars.getTank();
         return checkBounds().intersects(tank.checkBounds());
     }
     
@@ -51,21 +64,17 @@ public class Tank extends GameObject{
         int code = e.getKeyCode();
 
         switch(code){
-        case KeyEvent.VK_DOWN:
+        case KeyEvent.VK_S:
             velY = SPEED;
             break;
-        case  KeyEvent.VK_UP:
+        case  KeyEvent.VK_W:
             velY = -SPEED;
             break;
-        case  KeyEvent.VK_LEFT:
+        case  KeyEvent.VK_A:
             velX = -SPEED;
             break;
-        case KeyEvent.VK_RIGHT:
+        case KeyEvent.VK_D:
             velX = SPEED;
-            break;
-        case KeyEvent.VK_C:
-            launch = true;
-            break;
         }        
     }
     
@@ -73,20 +82,17 @@ public class Tank extends GameObject{
         int code = e.getKeyCode();
 
         switch(code){
-        case KeyEvent.VK_DOWN:
+        case KeyEvent.VK_S:
             velY = 0;
             break;
-        case  KeyEvent.VK_UP:
+        case  KeyEvent.VK_W:
             velY = 0;
             break;
-        case  KeyEvent.VK_LEFT:
+        case  KeyEvent.VK_A:
             velX = 0;
             break;
-        case KeyEvent.VK_RIGHT:
+            case KeyEvent.VK_D:
             velX = 0;
-            break;
-        case KeyEvent.VK_C:
-            launch = false;
             break;
         }
     }

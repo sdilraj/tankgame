@@ -1,12 +1,14 @@
 package tankgame;
 
-import java.awt.image.BufferedImage;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Rectangle;
 
 public class Wall extends GameObject {
     
     
-    public Wall(int x, int y, BufferedImage img) {
-        super(x, y, img);
+    public Wall(ObjectID id, int x, int y, Image img) {
+        super(id, x, y, img);
     }
     
     public void respawn() {
@@ -14,28 +16,23 @@ public class Wall extends GameObject {
     }
 
     @Override
-    public int getX() {
-        return this.x;
+    public void update() {
+        
     }
 
     @Override
-    public int getY() {
-        return this.y;
+    public void draw(Graphics2D g2D) {
+        g2D.drawImage(Img, x, y, null);
     }
 
     @Override
-    public void setX(int x) {
-        this.x = x;
+    public Rectangle checkBounds() {
+        return new Rectangle(x, y, Img.getWidth(null), Img.getHeight(null));
     }
 
     @Override
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    @Override
-    public ObjectID getID() {
-        return this.objID;
+    public boolean collide() {
+        return false;
     }
     
 }

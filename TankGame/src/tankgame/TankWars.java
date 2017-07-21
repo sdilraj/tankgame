@@ -1,36 +1,40 @@
 package tankgame;
 
-import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-    import java.util.ArrayList;
+import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
-public class TankWars extends JPanel implements Runnable, KeyListener {
-    private Tank tankP1;
-    private Tank tankP2;
-    private Missile bull1;
-    private Missile bull2;
-    Wall [] dWalls = new Wall[50]; // Destroyable walls
-    Wall [] cWalls = new Wall[50]; // Concrete walls
-    private int p1_x = 0, p1_y = 0; // Player 1 starting coordinates
-    private int p2_x = 1015, p2_y = 655; // Player 2 starting coordinates
-    private boolean mapComplete = false;
+public class TankWars extends JPanel implements Runnable, ActionListener {
+    Timer gameTimer;
+    private static Missile missile;
+    private static Missile missile_2;
+    private boolean launch = false;
+    private static Tank tankP1;
+    private static Tank_2 tankP2;
+    private ArrayList<Wall> cWalls = new ArrayList<>(); // Concrete walls
+    private ArrayList<Wall> dWalls = new ArrayList<>(); // Destroyable walls
+    private int p1_x = 0, p1_y = 0; // Initial player 1 coordinates
+    private int p2_x = 1015, p2_y = 655; // Initial player 2 coordinates
     private BufferedImage background;
-    private BufferedImage tank1, tank2, bul1, bul2;
-    
-    //Image icon;
-    
+        
     TankWars() {
         init();
+        addKeyListener(new Movement(tankP1));
+        addKeyListener(new Movement_2(tankP2));
+        addKeyListener(new MissileMovement(missile));
+        addKeyListener(new MissileMovement(missile_2));
+        
+        gameTimer = new Timer(5, this);
+        gameTimer.start();
     }
     
     @Override
@@ -41,8 +45,7 @@ public class TankWars extends JPanel implements Runnable, KeyListener {
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        g.setColor(Color.GREEN);
-        //if (mapComplete == false) {
+        Graphics2D g2D = (Graphics2D) g;
             g.drawImage(background, 0, 0, this);
             g.drawImage(background, 0, 240, this);
             g.drawImage(background, 0, 480, this);
@@ -55,127 +58,59 @@ public class TankWars extends JPanel implements Runnable, KeyListener {
             g.drawImage(background, 945, 0, this);
             g.drawImage(background, 945, 240, this);
             g.drawImage(background, 945, 480, this);
-            mapComplete = true;
-        //}
-        
-        g.drawImage(tankP1.Img, tankP1.x, tankP1.y, this);
-        g.drawImage(tankP2.Img, tankP2.x, tankP2.y, this);
-        g.drawImage(bull1.Img, bull1.x, bull1.y, this);
-        g.drawImage(bull2.Img, bull2.x, bull2.y, this);
-        
+           
+        tankP1.draw(g2D);
+        tankP2.draw(g2D);
+        if (missile.isLaunched())
+                missile.draw(g2D);
     }
     
     public void init () {
-        addKeyListener(this);
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
         
+        // Reading background img doesn't work with Image class for some reason...
         try {
             background = ImageIO.read(new File("Resources/Background.png"));
-            tank1 = ImageIO.read(new File("Resources/Tank1.png"));
-            tankP1 = new Tank(p1_x, p1_y, tank1);
-            tank2 = ImageIO.read(new File("Resources/tank2.png"));
-            tankP2 = new Tank(p2_x, p2_y, tank2);
+        } catch (IOException ex) {
+            System.out.println("TankWars.Init");
+        }
+
+        ImageIcon addImg;   
+        addImg = new ImageIcon("Resources/Tank1.png");
+        tankP1 = new Tank(ObjectID.TANK_1, p1_x, p1_y, addImg.getImage());
+        addImg = new ImageIcon("Resources/Tank2.png");
+        tankP2 = new Tank_2(ObjectID.TANK_2, p2_x, p2_y, addImg.getImage());
+        addImg = new ImageIcon("Resources/RocketR.png");
+        missile = new Missile (ObjectID.MISSILE, 0, 0, addImg.getImage());
+        //bullet.add(new Missile(ObjectID.MISSILE, 0, 0, addImg.getImage()));
+        addImg = new ImageIcon("Resources/RocketL.png");
+        missile_2 = new Missile(ObjectID.MISSILE, 0, 0, addImg.getImage());
+        //bullet.add(new Missile(ObjectID.MISSILE, 0, 0, addImg.getImage()));
+    }
     
-            bul1 = ImageIO.read(new File("Resources/Rocket.png"));
-            bull1 = new Missile(p1_x, p1_y, bul1);
-            bul2 = ImageIO.read(new File("Resources/Rocket.png"));
-            bull2 = new Missile(p2_x, p2_y, bul2);
-            
-            
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public static Tank getTank() {
+        return tankP1;
+    }
+    public static Tank_2 getTank_2() {
+        return tankP2;
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public void actionPerformed(ActionEvent e) {
+        //if(!tankP1.collide())
+            tankP1.update();
+            
+        //if(!tankP2.collide())
+            tankP2.update();
+        missile.update();
 
-    @Override
-    public void keyPressed(KeyEvent e) {
-        System.out.println("Key Pressed");
-        int code = e.getKeyCode();
-
-        switch(code){
-            case KeyEvent.VK_DOWN:
-            tankP1.moveDown();
-            bull1.moveDown();
-            break;
-        case  KeyEvent.VK_UP:
-            tankP1.moveUp();
-            bull1.moveUp();
-            break;
-        case  KeyEvent.VK_LEFT:
-            tankP1.moveLeft();
-            bull1.moveLeft();
-            break;
-        case KeyEvent.VK_RIGHT:
-            tankP1.moveRight();
-            bull1.moveRight();
-            break;
-        case KeyEvent.VK_W:
-            tankP2.moveUp();
-            bull2.moveUp();
-            break;
-        case KeyEvent.VK_A:
-            tankP2.moveLeft();
-            bull2.moveLeft();
-            break;
-        case KeyEvent.VK_S:
-            tankP2.moveDown();
-            bull2.moveDown();
-            break;
-        case KeyEvent.VK_D:
-            tankP2.moveRight();
-            bull2.moveRight();
-            break;
-        case KeyEvent.VK_L:
-            bull2.shoot();
-            break;
-        case KeyEvent.VK_Q:
-            bull1.shoot();
-            break;        
-        }
         repaint();
+        
     }
-    
-    
-    // rough below
-    
-   /* ArrayList bullets = TankWars.getBullets();
-    for (int w = 0; w < bullets.size(); w++) {
-    Bullet m = Bullets) bullets.get(w);
-    g2d.drawImage(m.getImage(),m.getX(), m.getY(), null);
-}
-*/
-    
-    
-    
-    //static ArrayList bullets;
-    //bullets = new ArrayList();
-    
-    //public static ArrayList getBullets() {
-      //  return bullets;
-    //}
-    
-    
-    
-//    public void fire() {
-      //  Bullet z = new Bullet(0,0);
-     //   bullets.add(z);
-  //  }
-    
-    
-    //above rough
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
+     
     public static void main(String args []) {
         Layout initGame = new Layout(1080, 720, "TankWars", new TankWars());
     }
+
 }

@@ -1,45 +1,27 @@
 package tankgame;
 
-import java.awt.image.BufferedImage;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
 
-
-public class Missile extends Tank{
- 
-    protected BufferedImage copyImg;
-    protected int ZERO = 0;    
+public class Missile extends GameObject{
+    private long timer = 0;
+    private final int SPEED = 4;
+    private int tankXPos = TankWars.getTank().x;
+    public static boolean launch = false;
     private Tank tk;
     private Wall w;
     
-    public Missile(int x, int y, BufferedImage img) {
-        super(x, y, img);
-//        this.x = tk.x;
-  //      this.y = tk.y;
-        copyImg = img;
+    public Missile(ObjectID id, int x, int y, Image img) {
+        super(id, x, y, img);
     }
-    
-    public void moveUp() {
-        this.y -= this.velY;
-    }
-    
-    public void moveDown() {
-        this.y += this.velY;
-    }
-    
-    public void moveLeft() {
-        this.x -= this.velX;
-    }
-    
-    public void moveRight() {
-        this.x += this.velX;
-    }
-    
     
     //shoot according to the direction
     //loop it to continue going
     //reload the bullet and the image
     //finish the shoot process once it hits the wall/tank
-    public void shoot()
-    {
+    public void shoot() {
         int i = 0;
         
         while(i != 20)
@@ -51,43 +33,54 @@ public class Missile extends Tank{
          
     }        
     
-    public void getStats()
-    {
+    public void getStats() {
     }
     
-    public boolean isHit()
-    {
+    public boolean isHit() {
         return false;
     }
     
-    public void reload()
-    {
+    public void reload() {
         
     }
     
-    @Override
-    public int getX() {
-        return this.x;
+    public boolean isLaunched() {
+        return launch;
     }
 
     @Override
-    public int getY() {
-        return this.y;
+    public void update() {
+        x += velX;
     }
 
     @Override
-    public void setX(int x) {
-        this.x = x;
+    public void draw(Graphics2D g2D) {
+        // Since x based on x coordinates of tank, doesn't work really well when moving and shooting
+        g2D.drawImage(Img, x, y, null);
     }
 
     @Override
-    public void setY(int y) {
-        this.y = y;
+    public Rectangle checkBounds() {
+        return null;
     }
 
     @Override
-    public ObjectID getID() {
-        return this.objID;
+    public boolean collide() {
+        return true;
     }
-        
+    
+    public void keyPressed(KeyEvent e) {
+        //if (System.currentTimeMillis() - timer > 1500) {
+        int code = e.getKeyCode();
+        switch(code){
+        case KeyEvent.VK_SPACE:
+            launch = true;
+            x = TankWars.getTank().x + 60;
+            y = TankWars.getTank().y + 20;
+            velX = SPEED;
+            timer = System.currentTimeMillis();
+            break;
+        }
+        //}
+    }
 }
