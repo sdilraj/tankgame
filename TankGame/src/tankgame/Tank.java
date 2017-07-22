@@ -36,10 +36,6 @@ public class Tank extends GameObject{
     @Override
     public void draw(Graphics2D g2D) {
         g2D.drawImage(Img, x, y, null);
-        //if(launch == true) {
-            //for (int i = 0; i < 100; i++) 
-                //g2D.drawImage(bullet.get(0).Img, x + (Img.getWidth(null)), y + (Img.getHeight(null)/3), null);
-        //}
     }
     
     @Override
@@ -49,7 +45,6 @@ public class Tank extends GameObject{
     
     @Override
     public boolean collide() {
-        //Tank_2 tank = TankWars.getTank_2();
         Tank tank = TankWars.getTank();
         ArrayList <Wall> walls = TankWars.getCWalls();
         for (int i = 0; i < walls.size(); i++) {
@@ -58,7 +53,7 @@ public class Tank extends GameObject{
                 return true;
             }
         }
-        
+        // Possibly need Tank to Missile collision...
         return false;
     }
     
