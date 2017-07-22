@@ -45,11 +45,17 @@ public class Tank extends GameObject{
     
     @Override
     public boolean collide() {
-        Tank tank = TankWars.getTank();
+        Tank_2 tank = TankWars.getTank_2();
+        if(checkBounds().intersects(tank.checkBounds())) {
+            System.out.println("Tank 1 collides Tank 2");
+            return true;
+        }
+        
+        // Tank to Wall collision
         ArrayList <Wall> walls = TankWars.getCWalls();
         for (int i = 0; i < walls.size(); i++) {
             if (walls.get(i).checkBounds().intersects(tank.checkBounds())) {
-                System.out.println("Tank collides wall");
+                System.out.println("Tank 1 collides Wall");
                 return true;
             }
         }

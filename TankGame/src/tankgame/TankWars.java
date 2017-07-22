@@ -32,7 +32,7 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
         addKeyListener(new Movement_2(tankP2));
         addKeyListener(new MissileMovement(missile));
         addKeyListener(new MissileMovement_2(missile_2));
-        
+        Sound.playMusic();
         gameTimer = new Timer(5, this);
         gameTimer.start();
     }
@@ -129,8 +129,7 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
     }
     public static Missile getMissile() {
         return missile;
-    }
-    
+    }   
     public static Missile_2 getMissile_2() {
         return missile_2;
     }
