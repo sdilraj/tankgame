@@ -2,6 +2,7 @@ package tankgame;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -15,15 +16,21 @@ import javax.swing.Timer;
 
 public class TankWars extends JPanel implements Runnable, ActionListener {
     Timer gameTimer;
+    
+    private static ArrayList <Missile> missiles = new ArrayList<>(); // Tank 1's Missiles
+    private static ArrayList <Missile_2> missiles2 = new ArrayList<>(); // Tank 2's Missiles
     private static Missile missile;
     private static Missile_2 missile_2;
-    private boolean launch = false;
+    
     private static Tank tankP1;
     private static Tank_2 tankP2;
+    
     private static ArrayList<Wall> cWalls = new ArrayList<>(); // Concrete walls
     private ArrayList<Wall> dWalls = new ArrayList<>(); // Destroyable walls
+    
     private int p1_x = 0, p1_y = 0; // Initial player 1 coordinates
     private int p2_x = 1015, p2_y = 655; // Initial player 2 coordinates
+    
     private BufferedImage background;
         
     TankWars() {
@@ -64,22 +71,21 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
             cWalls.get(i).draw(g2D);
         }
 
-        for(int i = 0; i < dWalls.size(); i++) {
+        /*for(int i = 0; i < dWalls.size(); i++) {
             dWalls.get(i).draw(g2D);
-        }
+        }*/
         
         tankP1.draw(g2D);
         tankP2.draw(g2D);
         
-        if (missile.isLaunched())
-        {
-            missile.draw(g2D);
+        for (int i = 0; i < missiles.size(); i++) {
+            Missile drawMissile = missiles.get(i);
+            drawMissile.draw(g2D);
         }
-            
         
-        if (missile_2.isLaunched())
-        {
-           missile_2.draw(g2D);
+        for (int i = 0; i < missiles2.size(); i++) {
+            Missile_2 drawMissile = missiles2.get(i);
+            drawMissile.draw(g2D);
         }
             
     }
@@ -105,6 +111,7 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
         addImg = new ImageIcon("Resources/RocketL.png");
         missile_2 = new Missile_2(ObjectID.MISSILE, 0, 0, addImg.getImage());
         addImg = new ImageIcon("Resources/Wall2.png");
+        
         int y = addImg.getImage().getHeight(null);
         for (int i = 0; i < 4; i++) {
             boolean destroyable = false;
@@ -127,6 +134,24 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
     public static ArrayList getCWalls() {
         return cWalls;
     }
+    public static ArrayList<Missile> getMissiles() {
+        return missiles;
+    }
+    public static void addMissile(Missile missile) {
+        missiles.add(missile);
+    }
+    public static void removeMissile(Missile missile) {
+        missiles.remove(missile);
+    }
+    public static ArrayList<Missile_2> getMissiles2() {
+        return missiles2;
+    }
+    public static void addMissiles2(Missile_2 missile) {
+        missiles2.add(missile);
+    }
+    public static void removeMissile2(Missile_2 missile) {
+        missiles2.remove(missile);
+    }
     public static Missile getMissile() {
         return missile;
     }   
@@ -138,9 +163,17 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
     public void actionPerformed(ActionEvent e) {
         tankP1.update();
         tankP2.update();
-        missile.update();
-        missile_2.update();
 
+        for (int i = 0; i < missiles.size(); i++) {
+            Missile drawMissile = missiles.get(i);
+            drawMissile.update();
+        }
+        
+        for (int i = 0; i < missiles2.size(); i++) {
+            Missile_2 drawMissile = missiles2.get(i);
+            drawMissile.update();
+        }
+        
         repaint();
         
     }

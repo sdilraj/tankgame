@@ -47,10 +47,12 @@ public class Missile_2 extends GameObject{
 
     @Override
     public void update() {
-        if (!collide())
-            x -= velX;
-        else
+        if (!collide()) {
+            x -= 5;
+        } else {
             x += 0;
+            TankWars.removeMissile2(this);
+        }
     }
 
     @Override
@@ -83,18 +85,19 @@ public class Missile_2 extends GameObject{
     }
     
     public void keyPressed(KeyEvent e) {
-        //if (System.currentTimeMillis() - timer > 1500) {
+        if (System.currentTimeMillis() - timer > 1500) {
         int code = e.getKeyCode();
         switch(code){
         case KeyEvent.VK_Z:
-            launch = true;
+            //launch = true;
             x = TankWars.getTank_2().x - 30;
             y = TankWars.getTank_2().y + 20;
-            velX = SPEED;
+            TankWars.addMissiles2(new Missile_2(ObjectID.MISSILE, x, y, this.Img));
+            //velX = SPEED;
             timer = System.currentTimeMillis();
             break;
         }
-        //}
+        }
     }
 }
 
