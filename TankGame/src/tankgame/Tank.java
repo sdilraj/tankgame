@@ -23,13 +23,13 @@ public class Tank extends GameObject{
             y += velY;
         } else {
             if (velX > 0)
-                x -= 3;
+                x -= 2;
             if (velX < 0)
-                x += 3;
+                x += 2;
             if (velY > 0)
-                y -= 3;
+                y -= 2;
             if (velY < 0)
-                y += 3;
+                y += 2;
         }
     }
 
@@ -45,13 +45,15 @@ public class Tank extends GameObject{
     
     @Override
     public boolean collide() {
-        Tank_2 tank = TankWars.getTank_2();
-        if(checkBounds().intersects(tank.checkBounds())) {
+        // Tank to Tank collision
+        Tank_2 tank2 = TankWars.getTank_2();
+        if(checkBounds().intersects(tank2.checkBounds())) {
             System.out.println("Tank 1 collides Tank 2");
             return true;
         }
         
         // Tank to Wall collision
+        Tank tank = TankWars.getTank();
         ArrayList <Wall> walls = TankWars.getCWalls();
         for (int i = 0; i < walls.size(); i++) {
             if (walls.get(i).checkBounds().intersects(tank.checkBounds())) {
@@ -59,7 +61,7 @@ public class Tank extends GameObject{
                 return true;
             }
         }
-        // Possibly need Tank to Missile collision...
+        
         return false;
     }
     
