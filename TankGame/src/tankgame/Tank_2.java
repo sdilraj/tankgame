@@ -11,7 +11,7 @@ public class Tank_2 extends GameObject{
     private boolean launch = false;
     private int health = 100;
     private final int DAMGE = 25;
-   // private ObjectID id;
+    private int hitCount;
      
     public Tank_2(ObjectID id, int x, int y, Image Img) {
         super(id, x, y, Img);

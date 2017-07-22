@@ -11,7 +11,8 @@ public class Tank extends GameObject{
     private final int SPEED = 2;
     private int health = 100;
     private final int DAMGE = 25;
-     
+    private int hitCount;
+    
     public Tank(ObjectID id, int x, int y, Image Img) {
         super(id, x, y, Img);
     }
@@ -22,14 +23,15 @@ public class Tank extends GameObject{
             x += velX;
             y += velY;
         } else {
-            if (velX > 0)
-                x -= 2;
-            if (velX < 0)
-                x += 2;
-            if (velY > 0)
-                y -= 2;
-            if (velY < 0)
-                y += 2;
+                if (velX > 0)
+                    x -= 2;
+                if (velX < 0)
+                    x += 2;
+                if (velY > 0)
+                    y -= 2;
+                if (velY < 0)
+                    y += 2;
+            
         }
     }
 
@@ -50,6 +52,15 @@ public class Tank extends GameObject{
         if(checkBounds().intersects(tank2.checkBounds())) {
             System.out.println("Tank 1 collides Tank 2");
             return true;
+        }
+        
+        // Tank to Missile collision
+        ArrayList <Missile_2> missile = TankWars.getMissiles2();
+        for (int i = 0; i < missile.size(); i ++) {
+            if (checkBounds().intersects(missile.get(i).checkBounds())) {
+                hitCount++;
+                System.out.println(hitCount);
+            }       
         }
         
         // Tank to Wall collision

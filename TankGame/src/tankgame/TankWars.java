@@ -2,7 +2,6 @@ package tankgame;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -22,6 +21,7 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
     private static Missile missile;
     private static Missile_2 missile_2;
     
+    private static ArrayList<Tank> player1 = new ArrayList<>();
     private static Tank tankP1;
     private static Tank_2 tankP2;
     
@@ -76,16 +76,17 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
         }*/
         
         tankP1.draw(g2D);
+        /*for (int i = 0; i < player1.size(); i++) {
+            player1.get(i).draw(g2D);
+        }*/
         tankP2.draw(g2D);
-        
+
         for (int i = 0; i < missiles.size(); i++) {
-            Missile drawMissile = missiles.get(i);
-            drawMissile.draw(g2D);
+            missiles.get(i).draw(g2D);
         }
         
         for (int i = 0; i < missiles2.size(); i++) {
-            Missile_2 drawMissile = missiles2.get(i);
-            drawMissile.draw(g2D);
+            missiles2.get(i).draw(g2D);
         }
             
     }
@@ -122,11 +123,13 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
             }
             y += 32;
         }
-        
     }
     
     public static Tank getTank() {
         return tankP1;
+    }
+    public static void removeTank(Tank tank) {
+        player1.remove(tank);
     }
     public static Tank_2 getTank_2() {
         return tankP2;
@@ -162,16 +165,17 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         tankP1.update();
+        /*for (int i = 0; i < player1.size(); i++) {
+            player1.get(i).update();
+        }*/
         tankP2.update();
 
         for (int i = 0; i < missiles.size(); i++) {
-            Missile drawMissile = missiles.get(i);
-            drawMissile.update();
+            missiles.get(i).update();
         }
         
         for (int i = 0; i < missiles2.size(); i++) {
-            Missile_2 drawMissile = missiles2.get(i);
-            drawMissile.update();
+            missiles2.get(i).update();
         }
         
         repaint();

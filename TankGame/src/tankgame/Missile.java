@@ -9,7 +9,6 @@ import java.util.ArrayList;
 public class Missile extends GameObject{
     private long timer = 0;
     private final int SPEED = 4;
-    private int tankXPos = TankWars.getTank().x;
     public static boolean launch = false;
     private Tank tk;
     private Wall w;
@@ -93,7 +92,6 @@ public class Missile extends GameObject{
         int code = e.getKeyCode();
         switch(code){
         case KeyEvent.VK_SPACE:
-            //launch = true;
             x = TankWars.getTank().x + 60;
             y = TankWars.getTank().y + 20;
             TankWars.addMissile(new Missile(ObjectID.MISSILE, x, y, this.Img));
