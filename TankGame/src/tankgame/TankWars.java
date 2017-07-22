@@ -16,7 +16,7 @@ import javax.swing.Timer;
 public class TankWars extends JPanel implements Runnable, ActionListener {
     Timer gameTimer;
     private static Missile missile;
-    private static Missile missile_2;
+    private static Missile_2 missile_2;
     private boolean launch = false;
     private static Tank tankP1;
     private static Tank_2 tankP2;
@@ -31,7 +31,7 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
         addKeyListener(new Movement(tankP1));
         addKeyListener(new Movement_2(tankP2));
         addKeyListener(new MissileMovement(missile));
-        addKeyListener(new MissileMovement(missile_2));
+        addKeyListener(new MissileMovement_2(missile_2));
         
         gameTimer = new Timer(5, this);
         gameTimer.start();
@@ -73,8 +73,18 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
         }
         
         tankP2.draw(g2D);
+        
         if (missile.isLaunched())
+        {
                 missile.draw(g2D);
+        }
+            
+        
+        if (missile_2.isLaunched())
+        {
+                missile_2.draw(g2D);
+        }
+            
     }
     
     public void init () {
@@ -94,9 +104,9 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
         addImg = new ImageIcon("Resources/Tank2.png");
         tankP2 = new Tank_2(ObjectID.TANK_2, p2_x, p2_y, addImg.getImage());
         addImg = new ImageIcon("Resources/RocketR.png");
-        missile = new Missile (ObjectID.MISSILE, 0, 0, addImg.getImage());
+        missile = new Missile(ObjectID.MISSILE, 0, 0, addImg.getImage());
         addImg = new ImageIcon("Resources/RocketL.png");
-        missile_2 = new Missile(ObjectID.MISSILE, 0, 0, addImg.getImage());
+        missile_2 = new Missile_2(ObjectID.MISSILE, 0, 0, addImg.getImage());
         addImg = new ImageIcon("Resources/Wall2.png");
         int y = addImg.getImage().getHeight(null);
         for (int i = 0; i < 4; i++) {
@@ -123,6 +133,10 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
     public static Missile getMissile() {
         return missile;
     }
+    
+    public static Missile_2 getMissile_2() {
+        return missile_2;
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -132,6 +146,7 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
         //if(!tankP2.collide())
             tankP2.update();
         missile.update();
+        missile_2.update();
 
         repaint();
         
