@@ -61,28 +61,25 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
         
         
         for(int i = 0; i < cWalls.size(); i++) {
-            //if (!cWalls.get(i).collide())
-                cWalls.get(i).draw(g2D);
+            cWalls.get(i).draw(g2D);
         }
-        //if (!tankP1.collide()) {
-            tankP1.draw(g2D);
-        //}
-        
+
         for(int i = 0; i < dWalls.size(); i++) {
             dWalls.get(i).draw(g2D);
         }
         
+        tankP1.draw(g2D);
         tankP2.draw(g2D);
         
         if (missile.isLaunched())
         {
-                missile.draw(g2D);
+            missile.draw(g2D);
         }
             
         
         if (missile_2.isLaunched())
         {
-                missile_2.draw(g2D);
+           missile_2.draw(g2D);
         }
             
     }
@@ -140,11 +137,8 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        //if(!tankP1.collide())
-            tankP1.update();
-
-        //if(!tankP2.collide())
-            tankP2.update();
+        tankP1.update();
+        tankP2.update();
         missile.update();
         missile_2.update();
 

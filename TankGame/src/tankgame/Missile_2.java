@@ -1,14 +1,10 @@
-
 package tankgame;
-
 
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import static tankgame.Missile.launch;
-
 
 public class Missile_2 extends GameObject{
     private long timer = 0;
@@ -52,7 +48,7 @@ public class Missile_2 extends GameObject{
     @Override
     public void update() {
         if (!collide())
-            x += velX;
+            x -= velX;
         else
             x += 0;
     }
@@ -69,14 +65,18 @@ public class Missile_2 extends GameObject{
     }
 
     @Override
-    public boolean collide() {
-        
-        ArrayList <Wall> walls = TankWars.getCWalls();
-        
+    public boolean collide() { 
+        // First collision check for walls
+        ArrayList <Wall> walls = TankWars.getCWalls();       
         for (int i = 0; i < walls.size(); i++) {
             if (checkBounds().intersects(walls.get(i).checkBounds())) {
                 return true;
             }
+        }
+        // Second collision check for tank
+        Tank tank = TankWars.getTank();
+        if (checkBounds().intersects(tank.checkBounds())) {
+            return true;
         }
         
         return false;
@@ -88,7 +88,7 @@ public class Missile_2 extends GameObject{
         switch(code){
         case KeyEvent.VK_Z:
             launch = true;
-            x = TankWars.getTank_2().x - 60;
+            x = TankWars.getTank_2().x - 30;
             y = TankWars.getTank_2().y + 20;
             velX = SPEED;
             timer = System.currentTimeMillis();
