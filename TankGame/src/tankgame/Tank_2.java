@@ -12,42 +12,42 @@ public class Tank_2 extends GameObject{
     private int health = 100;
     private final int DAMGE = 25;
     private int hitCount;
+    /*****************************/
+    private int screenUp = -5;
+    private int screenDown = 664;
+    private int screenLeft = -5;
+    private int screenRight = 1015;
+    /****************************/
      
     public Tank_2(ObjectID id, int x, int y, Image Img) {
         super(id, x, y, Img);
     }
 
-    /*
-    public int getHealth() {
-        return health;
-    }
-    
-    public boolean isDead() {
-        return 0 == health;
-    }
-    
-    public void dead() {
-        this.Img = null;
-    }
-    
-    public void respawn() {
-        health = 100;
-    }
-*/
     @Override
     public void update() {
+        System.out.println("Tank 2: " + x + ", " + y);
         if(!collide()) {
-            x += velX;
-            y += velY;
+            if (y > screenDown) {          // Game Frame Boundaries
+                y += -1;                   //
+            } else if (y < screenUp) {     //
+                y += 1;                    //
+            } else if (x > screenRight) {
+                x += -1;
+            } else if ( x < screenLeft) {
+                x += 1;
+            } else {
+                x += velX;
+                y += velY;
+            }
         }
         else {
             if (velX > 0)
                 x -= 2;
-            if (velX < 0)
+            else if (velX < 0)
                 x += 2;
-            if (velY > 0)
+            else if (velY > 0)
                 y -= 2;
-            if (velY < 0)
+            else if (velY < 0)
                 y += 2;
         }
     }
@@ -68,7 +68,7 @@ public class Tank_2 extends GameObject{
         // Tank to Tank collsion
         Tank tank = TankWars.getTank();
         if (checkBounds().intersects(tank.checkBounds())) {
-            System.out.println("Tank 2 collides Tank 1");
+            System.out.println("Tank 2: Collides Tank 1");
             return true;
         } else {
         // Tank to Wall collision
@@ -76,7 +76,7 @@ public class Tank_2 extends GameObject{
         ArrayList <Wall> walls = TankWars.getCWalls();
         for (int i = 0; i < walls.size(); i++) {
             if (walls.get(i).checkBounds().intersects(tank2.checkBounds())) {
-                System.out.println("Tank 2 collides Wall");
+                System.out.println("Tank 2: Collides Wall");
                 return true;
             }
         }

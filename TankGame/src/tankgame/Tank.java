@@ -12,6 +12,13 @@ public class Tank extends GameObject{
     private int health = 100;
     private final int DAMGE = 25;
     private int hitCount;
+    /*****************************/
+    private int screenUp = -5;
+    private int screenDown = 664;
+    private int screenLeft = -5;
+    private int screenRight = 1015;
+    /****************************/
+    
     
     public Tank(ObjectID id, int x, int y, Image Img) {
         super(id, x, y, Img);
@@ -19,17 +26,28 @@ public class Tank extends GameObject{
 
     @Override
     public void update() {
+        System.out.println("Tank 1: " + x + ", " + y);
         if(!collide()) {
-            x += velX;
-            y += velY;
+            if (y > screenDown) {          // Game Frame Boundaries
+                y += -1;                   //
+            } else if (y < screenUp) {     //
+                y += 1;                    //
+            } else if (x > screenRight) {
+                x += -1;
+            } else if ( x < screenLeft) {
+                x += 1;
+            } else {
+                x += velX;
+                y += velY;
+            }
         } else {
                 if (velX > 0)
                     x -= 2;
-                if (velX < 0)
+                else if (velX < 0)
                     x += 2;
-                if (velY > 0)
+                else if (velY > 0)
                     y -= 2;
-                if (velY < 0)
+                else if (velY < 0)
                     y += 2;
             
         }
@@ -50,7 +68,7 @@ public class Tank extends GameObject{
         // Tank to Tank collision
         Tank_2 tank2 = TankWars.getTank_2();
         if(checkBounds().intersects(tank2.checkBounds())) {
-            System.out.println("Tank 1 collides Tank 2");
+            System.out.println("Tank 1: Collides Tank 2");
             return true;
         }
         
@@ -68,7 +86,7 @@ public class Tank extends GameObject{
         ArrayList <Wall> walls = TankWars.getCWalls();
         for (int i = 0; i < walls.size(); i++) {
             if (walls.get(i).checkBounds().intersects(tank.checkBounds())) {
-                System.out.println("Tank 1 collides Wall");
+                System.out.println("Tank 1: Collides Wall");
                 return true;
             }
         }

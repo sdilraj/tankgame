@@ -21,12 +21,12 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
     private static Missile missile;
     private static Missile_2 missile_2;
     
-    private static ArrayList<Tank> player1 = new ArrayList<>();
+    //private static ArrayList<Tank> player1 = new ArrayList<>();
     private static Tank tankP1;
     private static Tank_2 tankP2;
     
     private static ArrayList<Wall> cWalls = new ArrayList<>(); // Concrete walls
-    private ArrayList<Wall> dWalls = new ArrayList<>(); // Destroyable walls
+    private static ArrayList<Wall> dWalls = new ArrayList<>(); // Destroyable walls
     
     private int p1_x = 0, p1_y = 0; // Initial player 1 coordinates
     private int p2_x = 1015, p2_y = 655; // Initial player 2 coordinates
@@ -128,9 +128,9 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
     public static Tank getTank() {
         return tankP1;
     }
-    public static void removeTank(Tank tank) {
+    /*public static void removeTank(Tank tank) {
         player1.remove(tank);
-    }
+    }*/
     public static Tank_2 getTank_2() {
         return tankP2;
     }
