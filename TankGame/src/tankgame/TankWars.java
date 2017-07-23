@@ -113,29 +113,32 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
         }
 
         ImageIcon addImg;   
+        // Loading images for Tank 1 & 2
         addImg = new ImageIcon("Resources/Tank1.png");
         tankP1 = new Tank(ObjectID.TANK_1, p1_x, p1_y, addImg.getImage());
         addImg = new ImageIcon("Resources/Tank2.png");
         tankP2 = new Tank_2(ObjectID.TANK_2, p2_x, p2_y, addImg.getImage());
+        
+        // Loading images for Missile
         addImg = new ImageIcon("Resources/RocketR.png");
         missile = new Missile(ObjectID.MISSILE, 0, 0, addImg.getImage());
         addImg = new ImageIcon("Resources/RocketL.png");
         missile_2 = new Missile_2(ObjectID.MISSILE, 0, 0, addImg.getImage());
         
+        // Loading images for Explosion
         addImg = new ImageIcon("Resources/Explosion_large.png");
         explosion1 = new Explosion(ObjectID.EXPLOSION, p1_x, p1_y, addImg.getImage());
         addImg = new ImageIcon("Resources/Explosion_large.png");
         explosion_2 = new Explosion_2(ObjectID.EXPLOSION_2, p2_x, p2_y, addImg.getImage());
         
-        addImg = new ImageIcon("Resources/Wall2.png");
         
         // Creating Concrete Walls
+        addImg = new ImageIcon("Resources/Wall2.png");
         int y = addImg.getImage().getHeight(null);
         for (int i = 0; i < 4; i++) {
-            boolean undestroyable = false;
             int x = addImg.getImage().getWidth(null);
             for (int j = 0; j < 4; j++) {
-                cWalls.add(new Wall(ObjectID.WALL, 400 + x, 240 + y, addImg.getImage(), undestroyable));
+                cWalls.add(new Wall(ObjectID.WALL, 425 + x, 240 + y, addImg.getImage(), false));
                 x += 32;
             }
             y += 32;
@@ -144,8 +147,8 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
         // Creating Destroyable Walls
         Random rand = new Random();
         addImg = new ImageIcon("Resources/Wall1.png");
-        for (int i = 0; i < 30; i++) {
-            dWalls.add(new Wall(ObjectID.WALL, rand.nextInt(1000), rand.nextInt(700), addImg.getImage(), true));
+        for (int i = 0; i < 40; i++) {
+            dWalls.add(new Wall(ObjectID.WALL, rand.nextInt(900) + 100, rand.nextInt(700) - 50, addImg.getImage(), true));
         }
 
     }

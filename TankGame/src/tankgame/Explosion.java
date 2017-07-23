@@ -5,7 +5,7 @@ import java.awt.Image;
 import java.awt.Rectangle;
 
 public class Explosion extends GameObject{
-    Image img1;
+
     public Explosion(ObjectID id, int x, int y, Image img) {
         super(id, x, y, img);
     }
@@ -17,7 +17,7 @@ public class Explosion extends GameObject{
 
     @Override
     public void draw(Graphics2D g2D) {
-        g2D.drawImage(img1, 50, 50, null);
+        g2D.drawImage(Img, 50, 50, null);
     }
 
     @Override
