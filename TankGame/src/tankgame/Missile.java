@@ -15,40 +15,12 @@ public class Missile extends GameObject{
     private long timer = 0;
     private final int SPEED = 4;
     public static boolean launch = false;
-    private Tank tk;
-    private Wall w;
     
     public Missile(ObjectID id, int x, int y, Image img) {
         super(id, x, y, img);
+       
     }
-    
-    //shoot according to the direction
-    //loop it to continue going
-    //reload the bullet and the image
-    //finish the shoot process once it hits the wall/tank
-    public void shoot() {
-        int i = 0;
-        
-        while(i != 20)
-        {
-            this.x += 10;
-            i++;
-            
-        }
-         
-    }        
-    
-    public void getStats() {
-    }
-    
-    public boolean isHit() {
-        return false;
-    }
-    
-    public void reload() {
-        
-    }
-    
+
     public boolean isLaunched() {
         return launch;
     }
@@ -76,7 +48,7 @@ public class Missile extends GameObject{
 
     @Override
     public boolean collide() {
-        // Missile to Walls (uConcrete)
+        // Missile to Walls (Concrete)
         ArrayList <Wall> cWalls = TankWars.getCWalls();
         for (int i = 0; i < cWalls.size(); i++) {
             if (checkBounds().intersects(cWalls.get(i).checkBounds())) {
@@ -112,10 +84,10 @@ public class Missile extends GameObject{
         int code = e.getKeyCode();
         switch(code){
         case KeyEvent.VK_SPACE:
+            launch = true;
             x = TankWars.getTank().x + 60;
             y = TankWars.getTank().y + 20;
             TankWars.addMissile(new Missile(ObjectID.MISSILE, x, y, this.Img));
-            //TankWars.addExplosion(new Explosion(ObjectID.EXPLOSION, x, y, getExp()));
             timer = System.currentTimeMillis();
             break;
         }

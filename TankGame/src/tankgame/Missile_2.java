@@ -10,36 +10,12 @@ public class Missile_2 extends GameObject{
     private long timer = 0;
     private final int SPEED = 4;
     public static boolean launch = false;
-    private Tank_2 tk;
-    private Wall w;
+
     
     public Missile_2(ObjectID id, int x, int y, Image img) {
         super(id, x, y, img);
     }
 
-     public void shoot() {
-        int i = 0;
-        
-        while(i != -20)
-        {
-            this.x -= 10;
-            i--;
-            
-        }
-         
-    }        
-    
-    public void getStats() {
-    }
-    
-    public boolean isHit() {
-        return false;
-    }
-    
-    public void reload() {
-        
-    }
-    
     public boolean isLaunched() {
         return launch;
     }
@@ -88,6 +64,7 @@ public class Missile_2 extends GameObject{
         int code = e.getKeyCode();
         switch(code){
         case KeyEvent.VK_Z:
+            launch = true;
             x = TankWars.getTank_2().x - 30;
             y = TankWars.getTank_2().y + 20;
             TankWars.addMissiles2(new Missile_2(ObjectID.MISSILE, x, y, this.Img));
