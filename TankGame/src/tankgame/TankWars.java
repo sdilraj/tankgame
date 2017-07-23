@@ -2,13 +2,19 @@ package tankgame;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -22,6 +28,7 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
     private static Missile missile;
     private static Missile_2 missile_2;
     
+    private static ArrayList <Explosion> explosion = new ArrayList<>();
     private static Explosion explosion1;
     private static Explosion_2 explosion_2;
     
@@ -31,6 +38,8 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
     
     private static ArrayList<Wall> cWalls = new ArrayList<>(); // Concrete walls
     private static ArrayList<Wall> dWalls = new ArrayList<>(); // Destroyable walls
+    
+    
     
     private int p1_x = 0, p1_y = 0; // Initial player 1 coordinates
     private int p2_x = 1015, p2_y = 655; // Initial player 2 coordinates
@@ -91,13 +100,16 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
             missiles2Array.get(i).draw(g2D);
         }
         
-        if(missile.x == tankP2.x) {
+        for (int i = 0; i < explosion.size(); i++) {
+            explosion.get(i).draw(g2D);
+        }
+        /*if(missile.x == tankP2.x) {
             explosion_2.draw(g2D);
-        }
+        }*/
         
-        if(missile_2.x == tankP1.x) {
-            explosion1.draw(g2D);
-        }
+        //if(missile_2.x == tankP1.x) {
+            //explosion1.draw(g2D);
+        //}
         
     }
     
@@ -124,10 +136,18 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
         missile = new Missile(ObjectID.MISSILE, 0, 0, addImg.getImage());
         addImg = new ImageIcon("Resources/RocketL.png");
         missile_2 = new Missile_2(ObjectID.MISSILE, 0, 0, addImg.getImage());
+        Image Img;
+        try {
+            // Loading images for Explosion
+            //addImg = new ImageIcon("Resources/Explosion_large.png");
+            URL url = new URL("http://i.imgur.com/DD27OYN.gif");
+            Img = Toolkit.getDefaultToolkit().createImage(url);
+            explosion1 = new Explosion(ObjectID.EXPLOSION, 0, 0, Img);
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(TankWars.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
-        // Loading images for Explosion
-        addImg = new ImageIcon("Resources/Explosion_large.png");
-        explosion1 = new Explosion(ObjectID.EXPLOSION, p1_x, p1_y, addImg.getImage());
+        //explosion1 = new Explosion(ObjectID.EXPLOSION, p1_x, p1_y, addImg.getImage());
         addImg = new ImageIcon("Resources/Explosion_large.png");
         explosion_2 = new Explosion_2(ObjectID.EXPLOSION_2, p2_x, p2_y, addImg.getImage());
         
@@ -192,7 +212,15 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
     public static Missile_2 getMissile_2() {
         return missile_2;
     }
-
+    public static ArrayList<Explosion> getExplosion() {
+        return explosion;
+    }
+    public static void addExplosion(Explosion e) {
+        explosion.add(e);
+    }
+    public static void removeExplosion(Explosion e) {
+        explosion.remove(e);
+    }
     @Override
     public void actionPerformed(ActionEvent e) {
         tankP1.update();
@@ -211,6 +239,9 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
             dWalls.get(i).update();
         }
         
+        for (int i = 0; i < explosion.size(); i++) {
+            explosion.get(i).update();
+        }
         repaint();
         
     }

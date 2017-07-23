@@ -5,19 +5,20 @@ import java.awt.Image;
 import java.awt.Rectangle;
 
 public class Explosion extends GameObject{
-
+    private int timer = 0;
+    
     public Explosion(ObjectID id, int x, int y, Image img) {
         super(id, x, y, img);
     }
 
     @Override
     public void update() {
-        
+  
     }
 
     @Override
     public void draw(Graphics2D g2D) {
-        g2D.drawImage(Img, 50, 50, null);
+        g2D.drawImage(Img, x, y, null);
     }
 
     @Override

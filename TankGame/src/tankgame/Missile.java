@@ -3,8 +3,13 @@ package tankgame;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Missile extends GameObject{
     private long timer = 0;
@@ -75,6 +80,7 @@ public class Missile extends GameObject{
         ArrayList <Wall> cWalls = TankWars.getCWalls();
         for (int i = 0; i < cWalls.size(); i++) {
             if (checkBounds().intersects(cWalls.get(i).checkBounds())) {
+                TankWars.addExplosion(new Explosion(ObjectID.EXPLOSION, cWalls.get(i).x, cWalls.get(i).y, getExp()));
                 return true;
             }
         }
@@ -88,6 +94,19 @@ public class Missile extends GameObject{
         return false;
     }
     
+    public Image getExp() {
+        Image Img;
+        try {
+            // Loading images for Explosion
+            URL url = new URL("http://i.imgur.com/DD27OYN.gif");
+            Img = Toolkit.getDefaultToolkit().createImage(url);
+            return Img;
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(TankWars.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
     public void keyPressed(KeyEvent e) {
         if (System.currentTimeMillis() - timer > 1500) {
         int code = e.getKeyCode();
@@ -96,6 +115,7 @@ public class Missile extends GameObject{
             x = TankWars.getTank().x + 60;
             y = TankWars.getTank().y + 20;
             TankWars.addMissile(new Missile(ObjectID.MISSILE, x, y, this.Img));
+            //TankWars.addExplosion(new Explosion(ObjectID.EXPLOSION, x, y, getExp()));
             timer = System.currentTimeMillis();
             break;
         }

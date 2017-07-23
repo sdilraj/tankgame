@@ -25,7 +25,7 @@ public class Tank_2 extends GameObject{
 
     @Override
     public void update() {
-        //System.out.println("Tank 2: " + x + ", " + y);
+        System.out.println("Tank 2: " + x + ", " + y);
         if(!collide()) {
             if (y > screenDown) {          // Game Frame Boundaries
                 y += -1;                   //
