@@ -22,6 +22,9 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
     private static Missile missile;
     private static Missile_2 missile_2;
     
+    private static Explosion explosion1;
+    private static Explosion_2 explosion_2;
+    
     //private static ArrayList<Tank> player1 = new ArrayList<>();
     private static Tank tankP1;
     private static Tank_2 tankP2;
@@ -87,7 +90,15 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
         for (int i = 0; i < missiles2Array.size(); i++) {
             missiles2Array.get(i).draw(g2D);
         }
-            
+        
+        if(missile.x == tankP2.x) {
+            explosion_2.draw(g2D);
+        }
+        
+        if(missile_2.x == tankP1.x) {
+            explosion1.draw(g2D);
+        }
+        
     }
     
     public void init () {
@@ -110,6 +121,12 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
         missile = new Missile(ObjectID.MISSILE, 0, 0, addImg.getImage());
         addImg = new ImageIcon("Resources/RocketL.png");
         missile_2 = new Missile_2(ObjectID.MISSILE, 0, 0, addImg.getImage());
+        
+        addImg = new ImageIcon("Resources/Explosion_large.png");
+        explosion1 = new Explosion(ObjectID.EXPLOSION, p1_x, p1_y, addImg.getImage());
+        addImg = new ImageIcon("Resources/Explosion_large.png");
+        explosion_2 = new Explosion_2(ObjectID.EXPLOSION_2, p2_x, p2_y, addImg.getImage());
+        
         addImg = new ImageIcon("Resources/Wall2.png");
         
         // Creating Concrete Walls

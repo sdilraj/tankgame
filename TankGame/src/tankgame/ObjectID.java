@@ -4,5 +4,7 @@ public enum ObjectID {
     TANK_1, 
     TANK_2,
     WALL,
-    MISSILE;
+    MISSILE,
+    EXPLOSION,
+    EXPLOSION_2;
 }
