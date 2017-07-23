@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -66,14 +67,14 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
             g.drawImage(background, 945, 240, this);
             g.drawImage(background, 945, 480, this);
         
+
+        for(int i = 0; i < dWalls.size(); i++) {
+            dWalls.get(i).draw(g2D);
+        }
         
         for(int i = 0; i < cWalls.size(); i++) {
             cWalls.get(i).draw(g2D);
         }
-
-        /*for(int i = 0; i < dWalls.size(); i++) {
-            dWalls.get(i).draw(g2D);
-        }*/
         
         tankP1.draw(g2D);
         /*for (int i = 0; i < player1.size(); i++) {
@@ -113,29 +114,41 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
         missile_2 = new Missile_2(ObjectID.MISSILE, 0, 0, addImg.getImage());
         addImg = new ImageIcon("Resources/Wall2.png");
         
+        // Creating Concrete Walls
         int y = addImg.getImage().getHeight(null);
         for (int i = 0; i < 4; i++) {
-            boolean destroyable = false;
+            boolean undestroyable = false;
             int x = addImg.getImage().getWidth(null);
             for (int j = 0; j < 4; j++) {
-                cWalls.add(new Wall(ObjectID.WALL, 400 + x, 240 + y, addImg.getImage(), destroyable));
+                cWalls.add(new Wall(ObjectID.WALL, 400 + x, 240 + y, addImg.getImage(), undestroyable));
                 x += 32;
             }
             y += 32;
         }
+        
+        // Creating Destroyable Walls
+        Random rand = new Random();
+        addImg = new ImageIcon("Resources/Wall1.png");
+        for (int i = 0; i < 30; i++) {
+            dWalls.add(new Wall(ObjectID.WALL, rand.nextInt(1060), rand.nextInt(700), addImg.getImage(), true));
+        }
+
     }
     
     public static Tank getTank() {
         return tankP1;
     }
-    /*public static void removeTank(Tank tank) {
-        player1.remove(tank);
-    }*/
     public static Tank_2 getTank_2() {
         return tankP2;
     }
     public static ArrayList getCWalls() {
         return cWalls;
+    }
+    public static ArrayList<Wall> getDWalls() {
+        return dWalls;
+    }
+    public static void removeDWall(Wall wall) {
+        dWalls.remove(wall);
     }
     public static ArrayList<Missile> getMissiles() {
         return missiles;
@@ -165,9 +178,6 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         tankP1.update();
-        /*for (int i = 0; i < player1.size(); i++) {
-            player1.get(i).update();
-        }*/
         tankP2.update();
 
         for (int i = 0; i < missiles.size(); i++) {
@@ -176,6 +186,11 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
         
         for (int i = 0; i < missiles2.size(); i++) {
             missiles2.get(i).update();
+        }
+        
+        // Update the Destroyable Walls
+        for(int i = 0; i < dWalls.size(); i++) {
+            dWalls.get(i).update();
         }
         
         repaint();

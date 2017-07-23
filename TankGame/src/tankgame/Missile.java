@@ -71,14 +71,15 @@ public class Missile extends GameObject{
 
     @Override
     public boolean collide() {
-        // First collision check for Walls
-        ArrayList <Wall> walls = TankWars.getCWalls();
-        for (int i = 0; i < walls.size(); i++) {
-            if (checkBounds().intersects(walls.get(i).checkBounds())) {
+        // Missile to Walls (uConcrete)
+        ArrayList <Wall> cWalls = TankWars.getCWalls();
+        for (int i = 0; i < cWalls.size(); i++) {
+            if (checkBounds().intersects(cWalls.get(i).checkBounds())) {
                 return true;
             }
         }
-        // Second collsion check for Tank 2
+        
+        // Missile 1 to Tank 2 Collision
         Tank_2 tank = TankWars.getTank_2();
         if (checkBounds().intersects(tank.checkBounds())) {
             return true;

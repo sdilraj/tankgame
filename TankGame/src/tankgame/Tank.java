@@ -81,12 +81,20 @@ public class Tank extends GameObject{
             }       
         }
         
-        // Tank to Wall collision
+        // Tank to Wall collision (undestroyable)
         Tank tank = TankWars.getTank();
-        ArrayList <Wall> walls = TankWars.getCWalls();
-        for (int i = 0; i < walls.size(); i++) {
-            if (walls.get(i).checkBounds().intersects(tank.checkBounds())) {
+        ArrayList <Wall> Cwalls = TankWars.getCWalls();
+        for (int i = 0; i < Cwalls.size(); i++) {
+            if (Cwalls.get(i).checkBounds().intersects(tank.checkBounds())) {
                 System.out.println("Tank 1: Collides Wall");
+                return true;
+            }
+        }
+        
+        // Tank to Wall collision (destroyable)
+        ArrayList <Wall> dWalls = TankWars.getDWalls();
+        for (int i = 0; i < dWalls.size(); i++) {
+            if(checkBounds().intersects(dWalls.get(i).checkBounds())) {
                 return true;
             }
         }
