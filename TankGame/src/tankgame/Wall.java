@@ -3,7 +3,12 @@ package tankgame;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Wall extends GameObject {
     private boolean destroyable;
@@ -41,6 +46,7 @@ public class Wall extends GameObject {
         for (int i = 0; i < missiles.size(); i++) {
             if (checkBounds().intersects(missiles.get(i).checkBounds())) {
                 TankWars.removeMissile(missiles.get(i));
+                TankWars.addExplosion(new Explosion(ObjectID.EXPLOSION, x - 25, y - 10, getExplosionIMG()));
                 return true;
             }
         }
@@ -50,11 +56,25 @@ public class Wall extends GameObject {
         for (int i = 0; i < missiles2.size(); i++) {
             if (checkBounds().intersects(missiles2.get(i).checkBounds())) {
                 TankWars.removeMissile2(missiles2.get(i));
+                TankWars.addExplosion(new Explosion(ObjectID.EXPLOSION, x + 10, y - 10, getExplosionIMG()));
                 return true;
             }
         }
         
         return false;
+    }
+    
+    public Image getExplosionIMG() {
+        Image Img;
+        try {
+            // Loading images for Explosion
+            URL url = new URL("http://i.imgur.com/DD27OYN.gif");
+            Img = Toolkit.getDefaultToolkit().createImage(url);
+            return Img;
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(TankWars.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
     
 }

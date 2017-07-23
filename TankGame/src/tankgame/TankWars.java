@@ -21,6 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class TankWars extends JPanel implements Runnable, ActionListener {
+    private long time = 0;
     Timer gameTimer;
     
     private static ArrayList <Missile> missilesArray = new ArrayList<>(); // Tank 1's Missiles
@@ -239,9 +240,13 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
             dWalls.get(i).update();
         }
         
-        for (int i = 0; i < explosion.size(); i++) {
-            explosion.get(i).update();
+        if (System.currentTimeMillis() - time > 1500) {
+            for (int i = 0; i < explosion.size(); i++) {
+                explosion.get(i).update();
+            }
+            time = System.currentTimeMillis();
         }
+        
         repaint();
         
     }

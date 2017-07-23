@@ -52,7 +52,7 @@ public class Missile extends GameObject{
         ArrayList <Wall> cWalls = TankWars.getCWalls();
         for (int i = 0; i < cWalls.size(); i++) {
             if (checkBounds().intersects(cWalls.get(i).checkBounds())) {
-                TankWars.addExplosion(new Explosion(ObjectID.EXPLOSION, cWalls.get(i).x, cWalls.get(i).y, getExp()));
+                TankWars.addExplosion(new Explosion(ObjectID.EXPLOSION, cWalls.get(i).x - 25, cWalls.get(i).y, getExplosionIMG()));
                 return true;
             }
         }
@@ -60,13 +60,14 @@ public class Missile extends GameObject{
         // Missile 1 to Tank 2 Collision
         Tank_2 tank = TankWars.getTank_2();
         if (checkBounds().intersects(tank.checkBounds())) {
+            TankWars.addExplosion(new Explosion(ObjectID.EXPLOSION, tank.x - 25, tank.y, getExplosionIMG()));
             return true;
         }
         
         return false;
     }
     
-    public Image getExp() {
+    public Image getExplosionIMG() {
         Image Img;
         try {
             // Loading images for Explosion

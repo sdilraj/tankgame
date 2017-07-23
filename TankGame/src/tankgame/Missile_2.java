@@ -3,8 +3,13 @@ package tankgame;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Missile_2 extends GameObject{
     private long timer = 0;
@@ -44,19 +49,34 @@ public class Missile_2 extends GameObject{
     @Override
     public boolean collide() { 
         // Missile 2 to Walls Collision (Concrete)
-        ArrayList <Wall> walls = TankWars.getCWalls();       
-        for (int i = 0; i < walls.size(); i++) {
-            if (checkBounds().intersects(walls.get(i).checkBounds())) {
+        ArrayList <Wall> cWalls = TankWars.getCWalls();       
+        for (int i = 0; i < cWalls.size(); i++) {
+            if (checkBounds().intersects(cWalls.get(i).checkBounds())) {
+                TankWars.addExplosion(new Explosion(ObjectID.EXPLOSION, cWalls.get(i).x + 10, cWalls.get(i).y, getExplosionIMG()));
                 return true;
             }
         }
         // Missile 2 to Tank 1 Collision
         Tank tank = TankWars.getTank();
         if (checkBounds().intersects(tank.checkBounds())) {
+            TankWars.addExplosion(new Explosion(ObjectID.EXPLOSION, tank.x + 25, tank.y, getExplosionIMG()));
             return true;
         }
         
         return false;
+    }
+    
+    public Image getExplosionIMG() {
+        Image Img;
+        try {
+            // Loading images for Explosion
+            URL url = new URL("http://i.imgur.com/DD27OYN.gif");
+            Img = Toolkit.getDefaultToolkit().createImage(url);
+            return Img;
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(TankWars.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
     
     public void keyPressed(KeyEvent e) {
