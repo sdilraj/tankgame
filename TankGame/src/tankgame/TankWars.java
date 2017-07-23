@@ -29,9 +29,8 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
     private static Missile missile;
     private static Missile_2 missile_2;
     
-    private static ArrayList <Explosion> explosion = new ArrayList<>();
-    private static Explosion explosion1;
-    private static Explosion_2 explosion_2;
+    private static ArrayList <Explosion> explosions = new ArrayList<>();
+    private static Explosion explosion;
     
     //private static ArrayList<Tank> player1 = new ArrayList<>();
     private static Tank tankP1;
@@ -101,16 +100,9 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
             missiles2Array.get(i).draw(g2D);
         }
         
-        for (int i = 0; i < explosion.size(); i++) {
-            explosion.get(i).draw(g2D);
+        for (int i = 0; i < explosions.size(); i++) {
+            explosions.get(i).draw(g2D);
         }
-        /*if(missile.x == tankP2.x) {
-            explosion_2.draw(g2D);
-        }*/
-        
-        //if(missile_2.x == tankP1.x) {
-            //explosion1.draw(g2D);
-        //}
         
     }
     
@@ -143,15 +135,10 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
             //addImg = new ImageIcon("Resources/Explosion_large.png");
             URL url = new URL("http://i.imgur.com/DD27OYN.gif");
             Img = Toolkit.getDefaultToolkit().createImage(url);
-            explosion1 = new Explosion(ObjectID.EXPLOSION, 0, 0, Img);
+            explosion = new Explosion(ObjectID.EXPLOSION, 0, 0, Img);
         } catch (MalformedURLException ex) {
             Logger.getLogger(TankWars.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        //explosion1 = new Explosion(ObjectID.EXPLOSION, p1_x, p1_y, addImg.getImage());
-        addImg = new ImageIcon("Resources/Explosion_large.png");
-        explosion_2 = new Explosion_2(ObjectID.EXPLOSION_2, p2_x, p2_y, addImg.getImage());
-        
         
         // Creating Concrete Walls
         addImg = new ImageIcon("Resources/Wall2.png");
@@ -214,13 +201,13 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
         return missile_2;
     }
     public static ArrayList<Explosion> getExplosion() {
-        return explosion;
+        return explosions;
     }
     public static void addExplosion(Explosion e) {
-        explosion.add(e);
+        explosions.add(e);
     }
     public static void removeExplosion(Explosion e) {
-        explosion.remove(e);
+        explosions.remove(e);
     }
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -241,8 +228,8 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
         }
         
         if (System.currentTimeMillis() - time > 1500) {
-            for (int i = 0; i < explosion.size(); i++) {
-                explosion.get(i).update();
+            for (int i = 0; i < explosions.size(); i++) {
+                explosions.get(i).update();
             }
             time = System.currentTimeMillis();
         }

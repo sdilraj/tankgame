@@ -52,10 +52,21 @@ public class Missile_2 extends GameObject{
         ArrayList <Wall> cWalls = TankWars.getCWalls();       
         for (int i = 0; i < cWalls.size(); i++) {
             if (checkBounds().intersects(cWalls.get(i).checkBounds())) {
+                TankWars.removeMissile2(this);
                 TankWars.addExplosion(new Explosion(ObjectID.EXPLOSION, cWalls.get(i).x + 10, cWalls.get(i).y, getExplosionIMG()));
                 return true;
             }
         }
+        
+        // Missile 2 to Missile 1 Collision
+        ArrayList<Missile> missiles = TankWars.getMissiles();
+        for (int i = 0; i < missiles.size(); i++) {
+            if (checkBounds().intersects(missiles.get(i).checkBounds())) {
+                TankWars.addExplosion((new Explosion(ObjectID.EXPLOSION, x, y, getExplosionIMG())));
+                return true;
+            }
+        }
+        
         // Missile 2 to Tank 1 Collision
         Tank tank = TankWars.getTank();
         if (checkBounds().intersects(tank.checkBounds())) {
