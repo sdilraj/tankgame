@@ -6,7 +6,6 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
 
 public class Tank_2 extends GameObject{
     private final int SPEED = 2;
@@ -71,7 +70,6 @@ public class Tank_2 extends GameObject{
             g2D.drawImage(health50, 1010, 0, null);
         if (hitCount == 3)
             g2D.drawImage(health25, 1010, 0, null);
-        if (hitCount == 4)
             
         g2D.drawString("Player 2", 1010, 10);
         g2D.drawImage(Img, x, y, null);

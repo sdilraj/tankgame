@@ -69,11 +69,9 @@ public class Tank extends GameObject{
             g2D.drawImage(health75, 10, 700, null);
         if (hitCount == 2)
             g2D.drawImage(health50, 10, 700, null);
-        if (hitCount == 3) {
+        if (hitCount == 3)
             g2D.drawImage(health25, 15, 710, null);
-            
-        }
-        
+   
         g2D.drawString("Player 1", 10, 715);
         g2D.drawImage(Img, x, y, null);
     }
