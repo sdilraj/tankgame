@@ -5,6 +5,7 @@ import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 
 public class Tank_2 extends GameObject{
     private final int SPEED = 2;
@@ -12,6 +13,12 @@ public class Tank_2 extends GameObject{
     private int health = 100;
     private final int DAMGE = 25;
     private int hitCount;
+    
+    private Image health100;
+    private Image health75;
+    private Image health50;
+    private Image health25;
+    
     /*****************************/
     private int screenUp = -5;
     private int screenDown = 664;
@@ -21,6 +28,7 @@ public class Tank_2 extends GameObject{
      
     public Tank_2(ObjectID id, int x, int y, Image Img) {
         super(id, x, y, Img);
+        getHealthImgs();
     }
 
     @Override
@@ -54,6 +62,17 @@ public class Tank_2 extends GameObject{
 
     @Override
     public void draw(Graphics2D g2D) {
+        if (hitCount == 0) 
+            g2D.drawImage(health100, 1010, 0, null);
+        if (hitCount == 1)
+            g2D.drawImage(health75, 1010, 0, null);
+        if (hitCount == 2)
+            g2D.drawImage(health50, 1010, 0, null);
+        if (hitCount == 3) {
+            g2D.drawImage(health25, 1010, 0, null);
+        }
+        
+        g2D.drawString("Player 2", 1010, 10);
         g2D.drawImage(Img, x, y, null);
         
     }
@@ -71,6 +90,16 @@ public class Tank_2 extends GameObject{
             System.out.println("Tank 2: Collides Tank 1");
             return true;
         } else {
+        
+        // Tank to Missile collision
+        ArrayList <Missile> missile = TankWars.getMissiles();
+        for (int i = 0; i < missile.size(); i ++) {
+            if (checkBounds().intersects(missile.get(i).checkBounds())) {
+                hitCount++;
+                System.out.println(hitCount);
+            }       
+        }
+            
         // Tank to Wall collision
         Tank_2 tank2 = TankWars.getTank_2();
         ArrayList <Wall> walls = TankWars.getCWalls();
@@ -84,6 +113,20 @@ public class Tank_2 extends GameObject{
         
         return false;
     }
+    
+    private void getHealthImgs() {
+        ImageIcon Img;
+        
+        Img = new ImageIcon("Resources/health.png");
+        health100 = Img.getImage();
+        Img = new ImageIcon("Resources/health1.png");
+        health75 = Img.getImage();
+        Img = new ImageIcon("Resources/health2.png");
+        health50 = Img.getImage();
+        Img = new ImageIcon("Resources/health3.png");
+        health25 = Img.getImage();
+    }
+    
     
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();

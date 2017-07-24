@@ -5,6 +5,7 @@ import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 
 public class Tank extends GameObject{
     private boolean launch = false;
@@ -12,6 +13,12 @@ public class Tank extends GameObject{
     private int health = 100;
     private final int DAMGE = 25;
     private int hitCount;
+    
+    private Image health100;
+    private Image health75;
+    private Image health50;
+    private Image health25;
+    
     /*****************************/
     private int screenUp = -5;
     private int screenDown = 664;
@@ -22,6 +29,7 @@ public class Tank extends GameObject{
     
     public Tank(ObjectID id, int x, int y, Image Img) {
         super(id, x, y, Img);
+        getHealthImgs();
     }
 
     @Override
@@ -55,6 +63,18 @@ public class Tank extends GameObject{
 
     @Override
     public void draw(Graphics2D g2D) {
+        if (hitCount == 0) 
+            g2D.drawImage(health100, 10, 700, null);
+        if (hitCount == 1)
+            g2D.drawImage(health75, 10, 700, null);
+        if (hitCount == 2)
+            g2D.drawImage(health50, 10, 700, null);
+        if (hitCount == 3) {
+            g2D.drawImage(health25, 15, 710, null);
+            
+        }
+        
+        g2D.drawString("Player 1", 10, 715);
         g2D.drawImage(Img, x, y, null);
     }
     
@@ -100,6 +120,19 @@ public class Tank extends GameObject{
         }
         
         return false;
+    }
+    
+    private void getHealthImgs() {
+        ImageIcon Img;
+        
+        Img = new ImageIcon("Resources/health.png");
+        health100 = Img.getImage();
+        Img = new ImageIcon("Resources/health1.png");
+        health75 = Img.getImage();
+        Img = new ImageIcon("Resources/health2.png");
+        health50 = Img.getImage();
+        Img = new ImageIcon("Resources/health3.png");
+        health25 = Img.getImage();
     }
     
     public void keyPressed(KeyEvent e) {
