@@ -45,7 +45,8 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
     private int p2_x = 1015, p2_y = 655; // Initial player 2 coordinates
     
     private BufferedImage background;
-        
+        private BufferedImage bg;
+    
     TankWars() {
         init();
         addKeyListener(new Movement(tankP1));
@@ -78,8 +79,8 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
             g.drawImage(background, 945, 0, this);
             g.drawImage(background, 945, 240, this);
             g.drawImage(background, 945, 480, this);
-        
-
+          
+            
         for(int i = 0; i < dWalls.size(); i++) {
             dWalls.get(i).draw(g2D);
         }
