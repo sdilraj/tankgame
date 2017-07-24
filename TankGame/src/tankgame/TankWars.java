@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -90,9 +91,9 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
         }
         
         tankP1.draw(g2D);
-
+        
         tankP2.draw(g2D);
-
+        
         for (int i = 0; i < missilesArray.size(); i++) {
             missilesArray.get(i).draw(g2D);
         }

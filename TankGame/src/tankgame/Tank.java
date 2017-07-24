@@ -78,6 +78,10 @@ public class Tank extends GameObject{
         g2D.drawImage(Img, x, y, null);
     }
     
+    public int getHit() {
+        return hitCount;
+    }
+    
     @Override
     public Rectangle checkBounds() {
         return new Rectangle(x, y, Img.getWidth(null), Img.getHeight(null));
