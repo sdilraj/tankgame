@@ -102,7 +102,7 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
         }
         
         tankP1.draw(g2D);
-        
+
         tankP2.draw(g2D);
         
     }

@@ -12,6 +12,11 @@ public class Tank extends GameObject{
     private final int COLLISION = 1;
     private int hitCount;
     
+    private int left;
+    private int right;
+    private int up;
+    private int down;
+    
     private Image winner;
     private Image health100;
     private Image health75;
@@ -33,7 +38,7 @@ public class Tank extends GameObject{
 
     @Override
     public void update() {
-        System.out.println("Tank 1: " + x + ", " + y);
+        //System.out.println("Tank 1: " + x + ", " + y);
         if(!collide()) {
             if (y > screenDown) {          // Game Frame Boundaries
                 y += -1;                   //
@@ -48,14 +53,14 @@ public class Tank extends GameObject{
                 y += velY;
             }
         } else {
-            if (velX > 0) 
-                x -= COLLISION;
-            if (velX < 0)
+            if((x + x) > right)
                 x += COLLISION;
-            if (velY > 0)
+            if ((y + y) > down)
+                y += COLLISION;
+            if (y < up)
                 y -= COLLISION;
-            if (velY < 0)
-                y += COLLISION; 
+            if (x < left)
+                x -= COLLISION;
         }
     }
 
@@ -89,35 +94,44 @@ public class Tank extends GameObject{
     
     @Override
     public boolean collide() {
-        // Tank to Tank collision
+        // Tank to Tank Collision
         Tank_2 tank2 = TankWars.getTank_2();
         if(checkBounds().intersects(tank2.checkBounds())) {
-            System.out.println("Tank 1: Collides Tank 2");
+            left = tank2.x;
+            right = tank2.x + tank2.x;
+            up = tank2.y;
+            down = tank2.y + tank2.y;
             return true;
         }
         
-        // Tank to Missile collision
+        // Tank to Missile Collision
         ArrayList <Missile_2> missile = TankWars.getMissiles2();
         for (int i = 0; i < missile.size(); i ++) {
             if (checkBounds().intersects(missile.get(i).checkBounds())) {
                 hitCount++;
-                System.out.println(hitCount);
             }       
         }
         
-        // Tank to Wall collision (undestroyable)
-        Tank tank = TankWars.getTank();
-        ArrayList <Wall> Cwalls = TankWars.getCWalls();
-        for (int i = 0; i < Cwalls.size(); i++) {
-            if (checkBounds().intersects(Cwalls.get(i).checkBounds())) {
+        // Tank to Wall Collision (Undestroyable)
+        ArrayList <Wall> cWalls = TankWars.getCWalls();
+        for (int i = 0; i < cWalls.size(); i++) {
+            if (checkBounds().intersects(cWalls.get(i).checkBounds())) {
+                left = cWalls.get(i).x;
+                right = cWalls.get(i).x + cWalls.get(i).x;
+                up = cWalls.get(i).y;
+                down = cWalls.get(i).y + cWalls.get(i).y;
                 return true;
             }
         }
         
-        // Tank to Wall collision (destroyable)
+        // Tank to Wall Collision (Destroyable)
         ArrayList <Wall> dWalls = TankWars.getDWalls();
         for (int i = 0; i < dWalls.size(); i++) {
             if(checkBounds().intersects(dWalls.get(i).checkBounds())) {
+                left = dWalls.get(i).x;
+                right = dWalls.get(i).x + dWalls.get(i).x;
+                up = dWalls.get(i).y;
+                down = dWalls.get(i).y + dWalls.get(i).y;
                 return true;
             }
         }
