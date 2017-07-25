@@ -22,7 +22,7 @@ import javax.swing.Timer;
 
 public class TankWars extends JPanel implements Runnable, ActionListener {
     private long time = 0;
-    Timer gameTimer;
+    private static Timer gameTimer;
     
     private static ArrayList <Missile> missilesArray = new ArrayList<>(); // Tank 1's Missiles
     private static ArrayList <Missile_2> missiles2Array = new ArrayList<>(); // Tank 2's Missiles
@@ -89,10 +89,6 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
             cWalls.get(i).draw(g2D);
         }
         
-        tankP1.draw(g2D);
-        
-        tankP2.draw(g2D);
-        
         for (int i = 0; i < missilesArray.size(); i++) {
             missilesArray.get(i).draw(g2D);
         }
@@ -104,6 +100,10 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
         for (int i = 0; i < explosions.size(); i++) {
             explosions.get(i).draw(g2D);
         }
+        
+        tankP1.draw(g2D);
+        
+        tankP2.draw(g2D);
         
     }
     
@@ -154,12 +154,105 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
         }
         
         // Creating Destroyable Walls
-        Random rand = new Random();
-        addImg = new ImageIcon("Resources/Wall1.png");
-        for (int i = 0; i < 40; i++) {
-            dWalls.add(new Wall(ObjectID.WALL, rand.nextInt(900) + 100, rand.nextInt(700) - 50, addImg.getImage(), true));
+        //Random rand = new Random();
+        ImageIcon ImgWallD;
+        ImgWallD = new ImageIcon("Resources/Wall1.png");
+        y = addImg.getImage().getHeight(null);
+        for (int i = 0; i < 3; i++) {
+            int x = addImg.getImage().getWidth(null);
+            for (int j = 0; j < 3; j++) {
+                if((i == 1) && (j == 1))
+                    cWalls.add(new Wall(ObjectID.WALL, 150 + x, 75 + y, addImg.getImage(), false));
+                else
+                    dWalls.add(new Wall(ObjectID.WALL, 150 + x, 75 + y, ImgWallD.getImage(), true));
+                x += 32;
+            }
+            y += 32;
         }
-
+        y = addImg.getImage().getHeight(null);
+        for (int i = 0; i < 3; i++) {
+            int x = addImg.getImage().getWidth(null);
+            for (int j = 0; j < 3; j++) {
+                if((i == 1) && (j == 1))
+                    cWalls.add(new Wall(ObjectID.WALL, 720 + x, 75 + y, addImg.getImage(), false));
+                else
+                    dWalls.add(new Wall(ObjectID.WALL, 720 + x, 75 + y, ImgWallD.getImage(), true));
+                x += 32;
+            }
+            y += 32;
+        }
+        y = addImg.getImage().getHeight(null);
+        for (int i = 0; i < 3; i++) {
+            int x = addImg.getImage().getWidth(null);
+            for (int j = 0; j < 3; j++) {
+                if((i == 1) && (j == 1))
+                    cWalls.add(new Wall(ObjectID.WALL, 150 + x, 250 + y, addImg.getImage(), false));
+                else
+                    dWalls.add(new Wall(ObjectID.WALL, 150 + x, 250 + y, ImgWallD.getImage(), true));
+                x += 32;
+            }
+            y += 32;
+        }
+        y = addImg.getImage().getHeight(null);
+        for (int i = 0; i < 3; i++) {
+            int x = addImg.getImage().getWidth(null);
+            for (int j = 0; j < 3; j++) {
+                if((i == 1) && (j == 1))
+                    cWalls.add(new Wall(ObjectID.WALL, 720 + x, 250 + y, addImg.getImage(), false));
+                else
+                    dWalls.add(new Wall(ObjectID.WALL, 720 + x, 250 + y, ImgWallD.getImage(), true));
+                x += 32;
+            }
+            y += 32;
+        }
+        y = addImg.getImage().getHeight(null);
+        for (int i = 0; i < 3; i++) {
+            int x = addImg.getImage().getWidth(null);
+            for (int j = 0; j < 3; j++) {
+                if((i == 1) && (j == 1))
+                    cWalls.add(new Wall(ObjectID.WALL, 150 + x, 425 + y, addImg.getImage(), false));
+                else
+                    dWalls.add(new Wall(ObjectID.WALL, 150 + x, 425 + y, ImgWallD.getImage(), true));
+                x += 32;
+            }
+            y += 32;
+        }
+        y = addImg.getImage().getHeight(null);
+        for (int i = 0; i < 3; i++) {
+            int x = addImg.getImage().getWidth(null);
+            for (int j = 0; j < 3; j++) {
+                if((i == 1) && (j == 1))
+                    cWalls.add(new Wall(ObjectID.WALL, 720 + x, 425 + y, addImg.getImage(), false));
+                else
+                    dWalls.add(new Wall(ObjectID.WALL, 720 + x, 425 + y, ImgWallD.getImage(), true));
+                x += 32;
+            }
+            y += 32;
+        }
+        y = addImg.getImage().getHeight(null);
+        for (int i = 0; i < 3; i++) {
+            int x = addImg.getImage().getWidth(null);
+            for (int j = 0; j < 3; j++) {
+                if((i == 1) && (j == 1))
+                    cWalls.add(new Wall(ObjectID.WALL, 440 + x, 10 + y, addImg.getImage(), false));
+                else
+                    dWalls.add(new Wall(ObjectID.WALL, 440 + x, 10 + y, ImgWallD.getImage(), true));
+                x += 32;
+            }
+            y += 32;
+        }
+        y = addImg.getImage().getHeight(null);
+        for (int i = 0; i < 3; i++) {
+            int x = addImg.getImage().getWidth(null);
+            for (int j = 0; j < 3; j++) {
+                if((i == 1) && (j == 1))
+                    cWalls.add(new Wall(ObjectID.WALL, 440 + x, 550 + y, addImg.getImage(), false));
+                else
+                    dWalls.add(new Wall(ObjectID.WALL, 440 + x, 550 + y, ImgWallD.getImage(), true));
+                x += 32;
+            }
+            y += 32;
+        }
     }
     
     public static Tank getTank() {
@@ -237,6 +330,10 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
         
         repaint();
         
+    }
+    
+    public static void stopGame() {
+        gameTimer.stop();
     }
      
     public static void main(String args []) {

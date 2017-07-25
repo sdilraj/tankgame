@@ -9,11 +9,10 @@ import javax.swing.ImageIcon;
 
 public class Tank_2 extends GameObject{
     private final int SPEED = 2;
-    private boolean launch = false;
-    private int health = 100;
-    private final int DAMGE = 25;
+    private final int COLLISION = 1;
     private int hitCount;
     
+    private Image winner;
     private Image health100;
     private Image health75;
     private Image health50;
@@ -49,29 +48,34 @@ public class Tank_2 extends GameObject{
             }
         }
         else {
-            if (velX > 0)
-                x -= 2;
-            else if (velX < 0)
-                x += 2;
-            else if (velY > 0)
-                y -= 2;
-            else if (velY < 0)
-                y += 2;
+            if (velX > 0) {
+                x -= COLLISION;
+            } else if (velX < 0) {
+                x += COLLISION;
+            } else if (velY > 0) {
+                y -= COLLISION;
+            } else if (velY < 0) {
+                y += COLLISION;
+            }
         }
     }
 
     @Override
     public void draw(Graphics2D g2D) {
         if (hitCount == 0) 
-            g2D.drawImage(health100, 1010, 0, null);
+            g2D.drawImage(health100, 1010, 10, null);
         if (hitCount == 1)
-            g2D.drawImage(health75, 1010, 0, null);
+            g2D.drawImage(health75, 1010, 10, null);
         if (hitCount == 2)
-            g2D.drawImage(health50, 1010, 0, null);
+            g2D.drawImage(health50, 1010, 10, null);
         if (hitCount == 3)
-            g2D.drawImage(health25, 1010, 0, null);
+            g2D.drawImage(health25, 1010, 10, null);
+        if(hitCount == 4) {
+            g2D.drawImage(winner, 0, 0, null);
+            TankWars.stopGame();
+        }
             
-        g2D.drawString("Player 2", 1010, 10);
+        g2D.drawString("Player 2", 1010, 23);
         g2D.drawImage(Img, x, y, null);
         
     }
@@ -128,6 +132,8 @@ public class Tank_2 extends GameObject{
         health50 = Img.getImage();
         Img = new ImageIcon("Resources/health3.png");
         health25 = Img.getImage();
+        Img = new ImageIcon("Resources/Player1Win.png");
+        winner = Img.getImage();
     }
     
     
@@ -146,9 +152,6 @@ public class Tank_2 extends GameObject{
             break;
         case KeyEvent.VK_D:
             velX = SPEED;
-        case KeyEvent.VK_Z:
-            launch = true;
-            break;
         }        
     }
     
@@ -167,9 +170,6 @@ public class Tank_2 extends GameObject{
             break;
         case KeyEvent.VK_D:
             velX = 0;
-            break;
-        case KeyEvent.VK_Z:
-            launch = false;
             break;
         }
     }

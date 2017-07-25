@@ -8,12 +8,11 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
 public class Tank extends GameObject{
-    private boolean launch = false;
     private final int SPEED = 2;
-    private int health = 100;
-    private final int DAMGE = 25;
+    private final int COLLISION = 1;
     private int hitCount;
     
+    private Image winner;
     private Image health100;
     private Image health75;
     private Image health50;
@@ -49,15 +48,14 @@ public class Tank extends GameObject{
                 y += velY;
             }
         } else {
-                if (velX > 0)
-                    x -= 2;
-                else if (velX < 0)
-                    x += 2;
-                else if (velY > 0)
-                    y -= 2;
-                else if (velY < 0)
-                    y += 2;
-            
+            if (velX > 0) 
+                x -= COLLISION;
+            if (velX < 0)
+                x += COLLISION;
+            if (velY > 0)
+                y -= COLLISION;
+            if (velY < 0)
+                y += COLLISION; 
         }
     }
 
@@ -70,9 +68,13 @@ public class Tank extends GameObject{
         if (hitCount == 2)
             g2D.drawImage(health50, 10, 700, null);
         if (hitCount == 3)
-            g2D.drawImage(health25, 15, 710, null);
-   
-        g2D.drawString("Player 1", 10, 715);
+            g2D.drawImage(health25, 10, 700, null);
+        if(hitCount == 4) {
+            g2D.drawImage(winner, 0, 0, null);
+            TankWars.stopGame();
+        }
+        
+        g2D.drawString("Player 1", 12, 710);
         g2D.drawImage(Img, x, y, null);
     }
     
@@ -107,8 +109,7 @@ public class Tank extends GameObject{
         Tank tank = TankWars.getTank();
         ArrayList <Wall> Cwalls = TankWars.getCWalls();
         for (int i = 0; i < Cwalls.size(); i++) {
-            if (Cwalls.get(i).checkBounds().intersects(tank.checkBounds())) {
-                System.out.println("Tank 1: Collides Wall");
+            if (checkBounds().intersects(Cwalls.get(i).checkBounds())) {
                 return true;
             }
         }
@@ -135,6 +136,8 @@ public class Tank extends GameObject{
         health50 = Img.getImage();
         Img = new ImageIcon("Resources/health3.png");
         health25 = Img.getImage();
+        Img = new ImageIcon("Resources/Player2Win.png");
+        winner = Img.getImage();
     }
     
     public void keyPressed(KeyEvent e) {
@@ -152,9 +155,6 @@ public class Tank extends GameObject{
             break;
         case KeyEvent.VK_RIGHT:
             velX = SPEED;
-            break;
-        case KeyEvent.VK_C:
-            launch = true;
             break;
         }        
     }
@@ -174,9 +174,6 @@ public class Tank extends GameObject{
             break;
         case KeyEvent.VK_RIGHT:
             velX = 0;
-            break;
-        case KeyEvent.VK_C:
-            launch = false;
             break;
         }
     }
