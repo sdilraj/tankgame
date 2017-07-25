@@ -1,6 +1,9 @@
-# Project: Tank Game
+# TEAM 4
 
-Team 4:	Dilraj Singh & Rong Tian Huang
+Members: Dilraj Singh & Rong Tian Huang
+
+
+How to Play:
 
 Player 1 ---> Arrow Keys & Space
 
