@@ -16,7 +16,7 @@ public class Explosion extends GameObject{
 
     @Override
     public void update() {
-        TankWars.removeExplosion(this);
+        //TankWars.removeExplosion(this);
     }
 
     @Override

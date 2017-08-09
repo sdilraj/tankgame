@@ -47,6 +47,7 @@ public class Wall extends GameObject {
             if (checkBounds().intersects(missiles.get(i).checkBounds())) {
                 TankWars.removeMissile(missiles.get(i));
                 TankWars.addExplosion(new Explosion(ObjectID.EXPLOSION, x - 25, y - 10, getExplosionIMG()));
+                Sound.playExplosion();
                 return true;
             }
         }
@@ -57,6 +58,7 @@ public class Wall extends GameObject {
             if (checkBounds().intersects(missiles2.get(i).checkBounds())) {
                 TankWars.removeMissile2(missiles2.get(i));
                 TankWars.addExplosion(new Explosion(ObjectID.EXPLOSION, x + 10, y - 10, getExplosionIMG()));
+                Sound.playExplosion();
                 return true;
             }
         }
@@ -68,7 +70,7 @@ public class Wall extends GameObject {
         Image Img;
         try {
             // Loading images for Explosion
-            URL url = new URL("http://i.imgur.com/DD27OYN.gif");
+            URL url = new URL("http://i.imgur.com/BS0tKaB.gif");
             Img = Toolkit.getDefaultToolkit().createImage(url);
             return Img;
         } catch (MalformedURLException ex) {

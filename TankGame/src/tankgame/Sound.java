@@ -23,6 +23,19 @@ public class Sound {
             AudioInputStream input = AudioSystem.getAudioInputStream(new File("Resources/Music.wav"));
             musicClip.open(input);
             musicClip.start();
+            musicClip.loop(10);
+        } catch (LineUnavailableException | UnsupportedAudioFileException | IOException ex) {
+            Logger.getLogger(Sound.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public static synchronized void playExplosion() {
+        try {
+            Clip musicClip = AudioSystem.getClip();
+            AudioInputStream input = AudioSystem.getAudioInputStream(new File("Resources/Explosion_large.wav"));
+            musicClip.open(input);
+            musicClip.start();
+            musicClip.loop(10);
         } catch (LineUnavailableException | UnsupportedAudioFileException | IOException ex) {
             Logger.getLogger(Sound.class.getName()).log(Level.SEVERE, null, ex);
         }

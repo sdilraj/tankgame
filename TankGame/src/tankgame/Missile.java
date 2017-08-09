@@ -71,6 +71,7 @@ public class Missile extends GameObject{
         Tank_2 tank = TankWars.getTank_2();
         if (checkBounds().intersects(tank.checkBounds())) {
             TankWars.addExplosion(new Explosion(ObjectID.EXPLOSION, tank.x - 25, tank.y, getExplosionIMG()));
+            Sound.playExplosion();
             return true;
         }
         
@@ -81,7 +82,7 @@ public class Missile extends GameObject{
         Image Img;
         try {
             // Loading images for Explosion
-            URL url = new URL("http://i.imgur.com/DD27OYN.gif");
+            URL url = new URL("http://i.imgur.com/BS0tKaB.gif");
             Img = Toolkit.getDefaultToolkit().createImage(url);
             return Img;
         } catch (MalformedURLException ex) {

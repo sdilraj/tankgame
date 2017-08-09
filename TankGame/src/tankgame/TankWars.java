@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -134,7 +133,7 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
         try {
             // Loading images for Explosion
             //addImg = new ImageIcon("Resources/Explosion_large.png");
-            URL url = new URL("http://i.imgur.com/DD27OYN.gif");
+            URL url = new URL("http://i.imgur.com/BS0tKaB.gif");
             Img = Toolkit.getDefaultToolkit().createImage(url);
             explosion = new Explosion(ObjectID.EXPLOSION, 0, 0, Img);
         } catch (MalformedURLException ex) {
@@ -319,13 +318,6 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
         // Update the Destroyable Walls
         for(int i = 0; i < dWalls.size(); i++) {
             dWalls.get(i).update();
-        }
-        
-        if (System.currentTimeMillis() - time > 1500) {
-            for (int i = 0; i < explosions.size(); i++) {
-                explosions.get(i).update();
-            }
-            time = System.currentTimeMillis();
         }
         
         repaint();
