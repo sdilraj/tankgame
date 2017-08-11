@@ -74,7 +74,7 @@ public class Tank_2 extends GameObject{
             g2D.drawImage(health25, 1010, 10, null);
         if(hitCount == 4) {
             g2D.drawImage(winner, 0, 0, null);
-            TankWars.stopGame();
+            //TankWars.stopGame();
         }
             
         g2D.drawString("Player 2", 1010, 23);
@@ -84,6 +84,10 @@ public class Tank_2 extends GameObject{
     
     public int getHit() {
         return hitCount;
+    }
+    
+    public void setHit(int hit) {
+        hitCount = hit;
     }
     
     @Override

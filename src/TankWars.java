@@ -39,6 +39,8 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
     private int p1_x = 0, p1_y = 0; // Initial player 1 coordinates
     private int p2_x = 1015, p2_y = 655; // Initial player 2 coordinates
     
+    private BufferedImage Map;
+    private Image miniMap;
     private BufferedImage background;
     private Image loadingScreen;
     private Image message;
@@ -63,7 +65,9 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
     public void paint(Graphics g) {
         super.paint(g);
         Graphics2D g2D = (Graphics2D) g;
-        
+        //Map = (BufferedImage) createImage(50, 50);
+        //miniMap = Map.getScaledInstance(100, 100, Image.SCALE_FAST);
+               
             g2D.drawImage(background, 0, 0, this);
             g2D.drawImage(background, 0, 240, this);
             g2D.drawImage(background, 0, 480, this);
@@ -109,7 +113,8 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
             g2D.drawImage(message, 350, 625, this);
         }
         /**************************************/
-        
+
+        //g2D.drawImage(miniMap, 100, 100, this);
     }
     
     public void init () {
@@ -341,12 +346,43 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
             dWalls.get(i).update();
         }
         
+        checkGame();
+        
         repaint();
         
     }
     
     public static void stopGame() {
         gameTimer.stop();
+    }
+    
+    public void checkGame() {
+        if(tankP1.getHit() == 4 || tankP2.getHit() == 4) {
+            gameTimer.stop();
+            // Clearing the Arrays
+            /*******************/
+            missilesArray.clear();
+            missiles2Array.clear();
+            dWalls.clear();
+            cWalls.clear();
+            explosions.clear();
+            /*******************/
+            init();
+            removeTitle();
+            tankP1.setHit(0);
+            tankP1.setX(p1_x);
+            tankP1.setY(p1_y);
+            tankP2.setHit(0);
+            tankP2.setX(p2_x);
+            tankP2.setY(p2_y);
+            
+            addKeyListener(new Movement(tankP1));
+            addKeyListener(new Movement_2(tankP2));
+            addKeyListener(new MissileMovement(missile));
+            addKeyListener(new MissileMovement_2(missile_2));
+            gameTimer.start();   
+        }
+        
     }
      
     public static void main(String args []) {
