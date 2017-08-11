@@ -34,12 +34,14 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
     private static ArrayList<Wall> cWalls = new ArrayList<>(); // Concrete walls
     private static ArrayList<Wall> dWalls = new ArrayList<>(); // Destroyable walls
     
-    
+    private static ArrayList<Image> titleScreen = new ArrayList<>();
     
     private int p1_x = 0, p1_y = 0; // Initial player 1 coordinates
     private int p2_x = 1015, p2_y = 655; // Initial player 2 coordinates
     
     private BufferedImage background;
+    private Image loadingScreen;
+    private Image message;
     
     TankWars() {
         init();
@@ -61,18 +63,19 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
     public void paint(Graphics g) {
         super.paint(g);
         Graphics2D g2D = (Graphics2D) g;
-            g.drawImage(background, 0, 0, this);
-            g.drawImage(background, 0, 240, this);
-            g.drawImage(background, 0, 480, this);
-            g.drawImage(background, 315, 0, this);
-            g.drawImage(background, 315, 240, this);
-            g.drawImage(background, 315, 480, this);
-            g.drawImage(background, 630, 0, this);
-            g.drawImage(background, 630, 240, this);
-            g.drawImage(background, 630, 480, this);
-            g.drawImage(background, 945, 0, this);
-            g.drawImage(background, 945, 240, this);
-            g.drawImage(background, 945, 480, this);
+        
+            g2D.drawImage(background, 0, 0, this);
+            g2D.drawImage(background, 0, 240, this);
+            g2D.drawImage(background, 0, 480, this);
+            g2D.drawImage(background, 315, 0, this);
+            g2D.drawImage(background, 315, 240, this);
+            g2D.drawImage(background, 315, 480, this);
+            g2D.drawImage(background, 630, 0, this);
+            g2D.drawImage(background, 630, 240, this);
+            g2D.drawImage(background, 630, 480, this);
+            g2D.drawImage(background, 945, 0, this);
+            g2D.drawImage(background, 945, 240, this);
+            g2D.drawImage(background, 945, 480, this);
           
             
         for(int i = 0; i < dWalls.size(); i++) {
@@ -99,6 +102,14 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
 
         tankP2.draw(g2D);
         
+        // Loading Screen
+        /**************************************/
+        if (titleScreen.size() > 0) {
+            g2D.drawImage(loadingScreen, 0 , 0, this);
+            g2D.drawImage(message, 350, 625, this);
+        }
+        /**************************************/
+        
     }
     
     public void init () {
@@ -108,6 +119,8 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
         // Reading background img doesn't work with Image class for some reason...
         try {
             background = ImageIO.read(new File("Resources/Background.png"));
+            loadingScreen = ImageIO.read(new File("Resources/title.gif"));
+            titleScreen.add(loadingScreen);
         } catch (IOException ex) {
             System.out.println("TankWars.Init");
         }
@@ -124,6 +137,11 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
         missile = new Missile(ObjectID.MISSILE, 0, 0, addImg.getImage());
         addImg = new ImageIcon("Resources/RocketL.png");
         missile_2 = new Missile_2(ObjectID.MISSILE, 0, 0, addImg.getImage());
+        
+        // Load Title Screen & Message
+        addImg = new ImageIcon("Resources/titlemessage.png");
+        message = addImg.getImage();
+        
         Image Img;
         try {
             // Loading images for Explosion
@@ -247,6 +265,14 @@ public class TankWars extends JPanel implements Runnable, ActionListener {
             }
             y += 32;
         }
+    }
+    
+    public static void removeTitle() {
+        titleScreen.clear();
+    }
+    
+    public static ArrayList getTitle() {
+        return titleScreen;
     }
     
     public static Tank getTank() {

@@ -153,8 +153,9 @@ public class Tank extends GameObject{
     }
     
     public void keyPressed(KeyEvent e) {
+        ArrayList title = TankWars.getTitle();
         int code = e.getKeyCode();
-
+        if (title.isEmpty()) {
         switch(code){
         case KeyEvent.VK_DOWN:
             velY = SPEED;
@@ -168,7 +169,8 @@ public class Tank extends GameObject{
         case KeyEvent.VK_RIGHT:
             velX = SPEED;
             break;
-        }        
+        }
+        }
     }
     
     public void keyReleased(KeyEvent e) {

@@ -92,15 +92,20 @@ public class Missile extends GameObject{
     }
     
     public void keyPressed(KeyEvent e) {
+        ArrayList title = TankWars.getTitle();
         if (System.currentTimeMillis() - timer > 1500) {
         int code = e.getKeyCode();
         switch(code){
         case KeyEvent.VK_SPACE:
-            launch = true;
-            x = TankWars.getTank().x + 60;
-            y = TankWars.getTank().y + 20;
-            TankWars.addMissile(new Missile(ObjectID.MISSILE, x, y, this.Img));
-            timer = System.currentTimeMillis();
+            if (title.size() == 1) {
+                TankWars.removeTitle();
+            } else {
+                launch = true;
+                x = TankWars.getTank().x + 60;
+                y = TankWars.getTank().y + 20;
+                TankWars.addMissile(new Missile(ObjectID.MISSILE, x, y, this.Img));
+                timer = System.currentTimeMillis();
+            }
             break;
         }
         }
